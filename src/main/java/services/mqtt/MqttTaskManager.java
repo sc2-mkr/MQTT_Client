@@ -9,11 +9,11 @@ public class MqttTaskManager {
 
     private static ArrayList<TaskGUI> tasks = new ArrayList<>();
 
-    public static MqttTaskManager getInstance() {
-        return ourInstance;
+    private MqttTaskManager() {
     }
 
-    private MqttTaskManager() {
+    public static MqttTaskManager getInstance() {
+        return ourInstance;
     }
 
     public TaskGUI createNewTaskGui(MqttManager manager) {

@@ -1,6 +1,7 @@
 package fxml.controllers;
 
 import exceptions.TranslationNotFoundException;
+import fxml.gui.ListenerGUI;
 import fxml.gui.TaskGUI;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import services.mqtt.MqttListenerManager;
 import services.mqtt.MqttManager;
 import services.mqtt.MqttTaskManager;
 import services.translation.Translation;
@@ -17,6 +19,9 @@ import services.translation.Translation;
 import java.util.UUID;
 
 public class ProgramController {
+
+    // MQTT
+    MqttManager mqttManager;
 
     // BEGIN GUI
     // TOP
@@ -43,17 +48,19 @@ public class ProgramController {
     private Button btn_addTask;
     @FXML
     private ScrollPane scrollp_tasksContainer;
-
+    private FlowPane p_listenersContainer = new FlowPane();
+    @FXML
+    private Button btn_addListener;
+    @FXML
+    private ScrollPane scrollp_listenersContainer;
 
     // BOTTOM
     @FXML
     private Label lbl_statusFixedText;
-    @FXML
-    private Label lbl_status;
     // END GUI
 
-    // MQTT
-    MqttManager mqttManager;
+    @FXML
+    private Label lbl_status;
 
 
     public ProgramController() {
@@ -74,6 +81,7 @@ public class ProgramController {
 
             // CENTER
             btn_addTask.setText(Translation.getInstance().getString("btn_addTask"));
+            btn_addListener.setText(Translation.getInstance().getString("btn_addListener"));
 
             // BOTTOM
             lbl_statusFixedText.setText(Translation.getInstance().getString("lbl_statusFixedText"));
@@ -96,8 +104,15 @@ public class ProgramController {
 
     @FXML
     private void addTask(MouseEvent event) {
-        TaskGUI taskGui = MqttTaskManager.getInstance().createNewTaskGui(mqttManager);
-        p_tasksPane.getChildren().add(taskGui);
+        TaskGUI task = MqttTaskManager.getInstance().createNewTaskGui(mqttManager);
+        p_tasksPane.getChildren().add(task);
         scrollp_tasksContainer.setContent(p_tasksPane);
+    }
+
+    @FXML
+    private void addListener(MouseEvent event) {
+        ListenerGUI listener = MqttListenerManager.getInstance().createNewListenerGui(mqttManager);
+        p_listenersContainer.getChildren().add(listener);
+        scrollp_listenersContainer.setContent(p_listenersContainer);
     }
 }

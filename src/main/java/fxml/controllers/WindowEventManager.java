@@ -5,11 +5,11 @@ import services.mqtt.MqttTaskManager;
 public class WindowEventManager {
     private static WindowEventManager instance = new WindowEventManager();
 
-    public static WindowEventManager getInstance() {
-        return instance;
+    private WindowEventManager() {
     }
 
-    private WindowEventManager() {
+    public static WindowEventManager getInstance() {
+        return instance;
     }
 
     public static void windowClosing() {

@@ -9,16 +9,10 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 
 public class Configuration {
-    private final String JSON_PATH = "/configs/configs.json";
-
     private static Configuration instance = new Configuration();
-
-    private HashMap<String, String> configs;
+    private final String JSON_PATH = "/configs/configs.json";
     public boolean isConfigAvailable = true;
-
-    public static Configuration getInstance() {
-        return instance;
-    }
+    private HashMap<String, String> configs;
 
     private Configuration() {
         try {
@@ -31,6 +25,10 @@ public class Configuration {
             System.err.println(MessageFormat.format("Configuration - NullPointerException: {0}", e.getMessage()));
             isConfigAvailable = false;
         }
+    }
+
+    public static Configuration getInstance() {
+        return instance;
     }
 
     private String getJSON() throws IOException, NullPointerException {

@@ -14,7 +14,6 @@ public class MqttManager {
     private String clientId;
     private MemoryPersistence persistence = new MemoryPersistence();
     private MqttClient client;
-    private MqttMessageSender msgSender;
 
     private boolean isConnected = false;
 
@@ -36,6 +35,7 @@ public class MqttManager {
             client.connect(connOpts);
             System.out.println("Connected");
             isConnected = true;
+            MqttListenerManager.getInstance().setClient(client); // TODO move to appropriate position
             return true;
         } catch (MqttException e) {
             System.err.println(MessageFormat.format("MQTT connect: {0}", e.getMessage()));

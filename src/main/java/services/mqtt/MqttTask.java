@@ -9,7 +9,7 @@ import java.util.TimerTask;
 
 public class MqttTask implements Runnable {
 
-    MqttMessage msg;
+    MqttMessageExtended msg;
 
     private int interval;
 
@@ -22,24 +22,13 @@ public class MqttTask implements Runnable {
     // Flag that indicate if the content in run method should be performed
 //    private volatile boolean running = true;
 
-    public MqttTask(MqttMessage msg, MqttClient client, int interval) {
+    public MqttTask(MqttMessageExtended msg, MqttClient client, int interval) {
         this.msg = msg;
         this.interval = interval;
         msgSender = new MqttMessageSender(client);
         task = new Task(msg, msgSender);
     }
 
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
     @Override
     public void run() {
         timer.schedule(task, 0, interval);
@@ -53,11 +42,11 @@ public class MqttTask implements Runnable {
 // Task executed every interval
 class Task extends TimerTask {
 
-    private MqttMessage msg;
+    private MqttMessageExtended msg;
 
     private MqttMessageSender msgSender;
 
-    public Task(MqttMessage msg, MqttMessageSender msgSender) {
+    public Task(MqttMessageExtended msg, MqttMessageSender msgSender) {
         this.msg = msg;
         this.msgSender = msgSender;
     }
@@ -66,7 +55,7 @@ class Task extends TimerTask {
     public void run() {
         // TODO manage exception
         try {
-            msgSender.sendMessage(msg.getTopic(), msg.getMessage(), msg.getQos());
+            msgSender.sendMessage(msg.getTopic(), new String(msg.getPayload()), msg.getQos());
         } catch (InvalidQosException e) {
             e.printStackTrace();
         } catch (MqttException e) {

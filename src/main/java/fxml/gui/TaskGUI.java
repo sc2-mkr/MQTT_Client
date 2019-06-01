@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import services.mqtt.MqttManager;
-import services.mqtt.MqttMessage;
+import services.mqtt.MqttMessageExtended;
 import services.mqtt.MqttTask;
 import services.translation.Translation;
 
@@ -27,9 +27,6 @@ public class TaskGUI extends FlowPane {
     private MqttTask mqttTask;
     private Thread taskThread;
 
-    /**
-     * Creates a horizontal FlowPane layout with hgap/vgap = 0.
-     */
     public TaskGUI(MqttManager mqttManager) {
         translateGUI();
         this.mqttManager = mqttManager;
@@ -52,19 +49,17 @@ public class TaskGUI extends FlowPane {
 
     private void runTask() {
 
-        if (taskThread != null) {
-            mqttTask.stop();
-        }
+        stopTask();
 
-        MqttMessage msg = new MqttMessage(
+        MqttMessageExtended msg = new MqttMessageExtended(
                 tf_topic.getText(),
-                tf_msg.getText(),
-                Integer.parseInt(tf_qos.getText()));
+                tf_msg.getText().getBytes(),
+                Integer.parseInt(tf_qos.getText())); // TODO manage NumberFormatException
 
         mqttTask = new MqttTask(
                 msg,
                 mqttManager.getClient(),
-                Integer.parseInt(tf_interval.getText()));
+                Integer.parseInt(tf_interval.getText())); // TODO manage NumberFormatException
 
         taskThread = new Thread(mqttTask);
         taskThread.run();
@@ -76,9 +71,3 @@ public class TaskGUI extends FlowPane {
         }
     }
 }
-
-/*
-class RunTask extends ActionEvent {
-
-}
-*/

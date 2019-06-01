@@ -20,10 +20,6 @@ public class Translation {
 
     private ResourceBundle messages;
 
-    public static Translation getInstance() {
-        return instance;
-    }
-
     private Translation() throws ConfigFileNotFoundException {
         Locale location = new Locale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
         String bundlePath;
@@ -32,6 +28,10 @@ public class Translation {
 
         bundlePath = Configuration.getInstance().getValue("bundlePath");
         messages = ResourceBundle.getBundle(bundlePath, location);
+    }
+
+    public static Translation getInstance() {
+        return instance;
     }
 
     public String getString(String key) throws TranslationNotFoundException {

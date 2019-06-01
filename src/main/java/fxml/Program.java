@@ -44,12 +44,7 @@ public class Program extends Application {
     @Override
     public void start(Stage primaryStage) {
         // Manage window closure
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-                WindowEventManager.windowClosing();
-            }
-        });
+        primaryStage.setOnCloseRequest(e -> WindowEventManager.windowClosing());
 
         primaryStage.setScene(new Scene(rootNode));
         //primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/icon.png")));
