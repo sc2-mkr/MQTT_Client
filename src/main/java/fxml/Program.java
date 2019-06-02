@@ -1,17 +1,13 @@
 package fxml;
 
 import configs.Configuration;
-import exceptions.TranslationNotFoundException;
 import fxml.controllers.WindowEventManager;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import services.translation.Translation;
 
 import java.io.IOException;
 
@@ -48,11 +44,7 @@ public class Program extends Application {
 
         primaryStage.setScene(new Scene(rootNode));
         //primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/icon.png")));
-        try {
-            primaryStage.setTitle(Translation.getInstance().getString("windowName"));
-        } catch (TranslationNotFoundException e) {
-            e.printStackTrace();
-        }
+        primaryStage.setTitle("MQTT Client");
         primaryStage.setMinHeight(new Double(Configuration.getInstance().getValue("minWindowHeight")));
         primaryStage.setMinWidth(new Double(Configuration.getInstance().getValue("minWindowWidth")));
         primaryStage.show();

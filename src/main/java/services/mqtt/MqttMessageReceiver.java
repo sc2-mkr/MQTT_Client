@@ -23,7 +23,7 @@ public class MqttMessageReceiver implements MqttCallback {
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-        MqttMessageExtended msg = new MqttMessageExtended(mqttMessage);
+        MqttMessageExtended msg = new MqttMessageExtended(s, mqttMessage);
         msg.setTopic(s);
         manager.update(msg);
     }

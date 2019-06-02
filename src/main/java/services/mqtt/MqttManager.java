@@ -1,7 +1,7 @@
 package services.mqtt;
 
+import javafx.scene.control.ScrollPane;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
@@ -14,31 +14,36 @@ public class MqttManager {
     private String clientId;
     private MemoryPersistence persistence = new MemoryPersistence();
     private MqttClient client;
+    private MqttConnectionManager connManager;
+    private MqttSubscribersManager subManager;
+
+    //GUI
+    private ScrollPane scrollp_topics;
+    private ScrollPane scrollp_messages;
 
     private boolean isConnected = false;
 
-    public MqttManager(String broker, String port, String clientId) {
+    public MqttManager(String broker, String port, String clientId, ScrollPane scrollp_topics, ScrollPane scrollp_messages) {
         this.broker = broker;
         this.port = port;
         this.clientId = clientId;
+        this.scrollp_topics = scrollp_topics;
+        this.scrollp_messages = scrollp_messages;
     }
 
-    // TODO make MqttConnectionManager class
     public boolean connect() {
         if (isConnected) disconnect();
         try {
             String url = MessageFormat.format("tcp://{0}:{1}", broker, port);
             client = new MqttClient(url, clientId, persistence);
-            MqttConnectOptions connOpts = new MqttConnectOptions();
-            connOpts.setCleanSession(true);
-            System.out.println("Connecting to broker: " + broker);
-            client.connect(connOpts);
-            System.out.println("Connected");
+            connManager = new MqttConnectionManager(client);
+            connManager.connect();
             isConnected = true;
-            MqttListenerManager.getInstance().setClient(client); // TODO move to appropriate position
+            //MqttListenerManager.getInstance().setClient(client); // TODO move to appropriate position
+            subManager = new MqttSubscribersManager(this, scrollp_topics, scrollp_messages);
             return true;
         } catch (MqttException e) {
-            System.err.println(MessageFormat.format("MQTT connect: {0}", e.getMessage()));
+            System.err.println(MessageFormat.format("MQTT connect: {0}", e.getMessage())); // TODO use log class
             isConnected = false;
             return false;
         }
@@ -47,9 +52,9 @@ public class MqttManager {
     public void disconnect() {
         if (isConnected) {
             try {
-                client.disconnect();
+                connManager.disconnect();
             } catch (MqttException e) {
-                System.err.println(MessageFormat.format("MQTT disconnect: {0}", e.getMessage()));
+                System.err.println(MessageFormat.format("MQTT disconnect: {0}", e.getMessage()));// TODO use log class
             }
         }
         System.out.println("Disconnected");
@@ -57,5 +62,9 @@ public class MqttManager {
 
     public MqttClient getClient() {
         return client;
+    }
+
+    public void subscribe(String topic) {
+        subManager.addSubscription(topic);
     }
 }

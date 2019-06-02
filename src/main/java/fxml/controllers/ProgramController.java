@@ -1,27 +1,20 @@
 package fxml.controllers;
 
-import exceptions.TranslationNotFoundException;
-import fxml.gui.ListenerGUI;
 import fxml.gui.TaskGUI;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import services.mqtt.MqttListenerManager;
 import services.mqtt.MqttManager;
 import services.mqtt.MqttTaskManager;
-import services.translation.Translation;
+import services.util.logs.LogSystem;
 
 import java.util.UUID;
 
 public class ProgramController {
 
     // MQTT
-    MqttManager mqttManager;
+    MqttManager manager;
 
     // BEGIN GUI
     // TOP
@@ -49,10 +42,27 @@ public class ProgramController {
     @FXML
     private ScrollPane scrollp_tasksContainer;
     private FlowPane p_listenersContainer = new FlowPane();
+
+
+    // Subscription
     @FXML
-    private Button btn_addListener;
+    private TextField tf_subTopic;
+//    @FXML
+//    private Button btn_subscibe;
     @FXML
-    private ScrollPane scrollp_listenersContainer;
+    private ScrollPane scrollp_topics;
+    @FXML
+    private ScrollPane scrollp_messages;
+
+
+
+
+    @FXML
+    private TextArea ta_logs;
+
+
+
+
 
     // BOTTOM
     @FXML
@@ -63,38 +73,19 @@ public class ProgramController {
     private Label lbl_status;
 
 
-    public ProgramController() {
-        Platform.runLater(() -> {
-            translateGUIElements();
-        });
-    }
+    public ProgramController() {}
 
-    private void translateGUIElements() {
-
-        try {
-            // TOP
-            lbl_ipAddress.setText(Translation.getInstance().getString("lbl_ipAddress"));
-            lbl_port.setText(Translation.getInstance().getString("lbl_port"));
-            lbl_clientId.setText(Translation.getInstance().getString("lbl_clientId"));
-            btn_generateUUID.setText(Translation.getInstance().getString("btn_generateUUID"));
-            btn_connect.setText(Translation.getInstance().getString("btn_connect"));
-
-            // CENTER
-            btn_addTask.setText(Translation.getInstance().getString("btn_addTask"));
-            btn_addListener.setText(Translation.getInstance().getString("btn_addListener"));
-
-            // BOTTOM
-            lbl_statusFixedText.setText(Translation.getInstance().getString("lbl_statusFixedText"));
-        } catch (TranslationNotFoundException e) {
-            e.printStackTrace();
-        }
-
+    public void initialize(){
+        LogSystem.getInstance().setLbl_status(lbl_status);
+        LogSystem.getInstance().setTa_logs(ta_logs);
+        scrollp_topics.setFitToWidth(true);
+        scrollp_messages.setFitToWidth(true);
     }
 
     @FXML
     private void connectToBroker(MouseEvent event) {
-        mqttManager = new MqttManager(tf_ipAddress.getText(), tf_port.getText(), tf_clientId.getText());
-        mqttManager.connect();
+        manager = new MqttManager(tf_ipAddress.getText(), tf_port.getText(), tf_clientId.getText(), scrollp_topics, scrollp_messages);
+        manager.connect();
     }
 
     @FXML
@@ -104,15 +95,16 @@ public class ProgramController {
 
     @FXML
     private void addTask(MouseEvent event) {
-        TaskGUI task = MqttTaskManager.getInstance().createNewTaskGui(mqttManager);
+        TaskGUI task = MqttTaskManager.getInstance().createNewTaskGui(manager);
         p_tasksPane.getChildren().add(task);
         scrollp_tasksContainer.setContent(p_tasksPane);
     }
 
     @FXML
-    private void addListener(MouseEvent event) {
-        ListenerGUI listener = MqttListenerManager.getInstance().createNewListenerGui(mqttManager);
-        p_listenersContainer.getChildren().add(listener);
-        scrollp_listenersContainer.setContent(p_listenersContainer);
+    private void subscribe(MouseEvent event) {
+//        ListenerGUI listener = MqttListenerManager.getInstance().createNewListenerGui(manager);
+//        p_listenersContainer.getChildren().add(listener);
+//        scrollp_listenersContainer.setContent(p_listenersContainer);
+        manager.subscribe(tf_subTopic.getText());
     }
 }

@@ -2,113 +2,273 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.controllers.ProgramController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.controllers.ProgramController">
    <children>
       <BorderPane layoutX="145.0" layoutY="67.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <bottom>
-            <FlowPane prefWidth="200.0" BorderPane.alignment="CENTER_RIGHT">
-               <children>
-                  <Label fx:id="lbl_statusFixedText" alignment="CENTER_RIGHT" text="STATUS" />
-                  <Label fx:id="lbl_status" />
-               </children>
-            </FlowPane>
-         </bottom>
          <top>
             <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <GridPane hgap="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" />
-                        <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Label fx:id="lbl_ipAddress" text="INDIRIZZO_IP" GridPane.halignment="RIGHT" />
-                        <TextField fx:id="tf_ipAddress" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" />
-                        <Label fx:id="lbl_port" text="PORT" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                        <TextField fx:id="tf_port" text="1883" GridPane.columnIndex="3" />
-                        <Button fx:id="btn_connect" mnemonicParsing="false" onMouseClicked="#connectToBroker" text="CONNECT" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                        <Label fx:id="lbl_clientId" text="CLIENT_ID" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                        <TextField fx:id="tf_clientId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Button fx:id="btn_generateUUID" mnemonicParsing="false" onMouseClicked="#generateUUID" text="UUID" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                     </children>
-                     <padding>
-                        <Insets left="5.0" right="5.0" />
-                     </padding>
-                  </GridPane>
+                  <TitledPane animated="false" collapsible="false" maxHeight="-Infinity" minHeight="-Infinity" text="Broker settings" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <GridPane hgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                    <ColumnConstraints minWidth="10.0" />
+                                    <ColumnConstraints fillWidth="false" />
+                                    <ColumnConstraints hgrow="SOMETIMES" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Label fx:id="lbl_ipAddress" text="IP address" GridPane.halignment="RIGHT" />
+                                    <TextField fx:id="tf_ipAddress" maxWidth="1.7976931348623157E308" text="127.0.0.1" GridPane.columnIndex="1" />
+                                    <Label fx:id="lbl_port" text="Port" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
+                                    <TextField fx:id="tf_port" text="1883" GridPane.columnIndex="3" />
+                                    <Button fx:id="btn_connect" mnemonicParsing="false" onMouseClicked="#connectToBroker" text="Connect" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                    <Label fx:id="lbl_clientId" text="Client id" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                    <TextField fx:id="tf_clientId" text="MQTT_CLIENT" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                                    <Button fx:id="btn_generateUUID" mnemonicParsing="false" onMouseClicked="#generateUUID" text="Generate UUID" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" />
+                                 </padding>
+                              </GridPane>
+                           </children>
+                           <padding>
+                              <Insets left="5.0" right="5.0" top="5.0" />
+                           </padding></AnchorPane>
+                    </content>
+                  </TitledPane>
                </children>
             </AnchorPane>
          </top>
          <center>
-            <GridPane BorderPane.alignment="CENTER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <GridPane hgap="5.0" vgap="5.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Button fx:id="btn_addTask" mnemonicParsing="false" onMouseClicked="#addTask" text="ADD_TASK" />
-                        <ScrollPane fx:id="scrollp_tasksContainer" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                          </content>
-                        </ScrollPane>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" />
-                     </padding>
-                  </GridPane>
-                  <GridPane hgap="5.0" vgap="5.0" GridPane.columnIndex="1">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Button fx:id="btn_addListener" mnemonicParsing="false" onMouseClicked="#addListener" text="ADD_LISTENER" />
-                        <ScrollPane fx:id="scrollp_listenersContainer" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                          </content>
-                        </ScrollPane>
-                     </children>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" />
-                     </padding>
-                  </GridPane>
-               </children>
-            </GridPane>
+            <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+              <tabs>
+                <Tab text="Publish">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox alignment="TOP_RIGHT">
+                                       <children>
+                                          <GridPane>
+                                            <columnConstraints>
+                                              <ColumnConstraints />
+                                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <Label text="Topic" GridPane.halignment="RIGHT">
+                                                   <padding>
+                                                      <Insets right="5.0" />
+                                                   </padding></Label>
+                                                <Label text="Payload" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                                                   <padding>
+                                                      <Insets right="5.0" />
+                                                   </padding></Label>
+                                                <Label text="Qos" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+                                                   <padding>
+                                                      <Insets right="5.0" />
+                                                   </padding></Label>
+                                                <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" />
+                                                <TextField GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                                                <HBox GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                                   <children>
+                                                      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" selected="true" text="0">
+                                                         <HBox.margin>
+                                                            <Insets right="5.0" />
+                                                         </HBox.margin>
+                                                      </RadioButton>
+                                                      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" text="1">
+                                                         <HBox.margin>
+                                                            <Insets right="5.0" />
+                                                         </HBox.margin>
+                                                      </RadioButton>
+                                                      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" text="2">
+                                                         <HBox.margin>
+                                                            <Insets right="5.0" />
+                                                         </HBox.margin>
+                                                      </RadioButton>
+                                                   </children>
+                                                </HBox>
+                                                <TextField disable="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                                <Label disable="true" text="Interval" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <CheckBox mnemonicParsing="false" text="Retained" GridPane.rowIndex="3" />
+                                                <CheckBox mnemonicParsing="false" text="Loop" GridPane.rowIndex="4" />
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </GridPane>
+                                          <Button mnemonicParsing="false" text="Publish">
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin></Button>
+                                       </children>
+                                    </VBox>
+                                    <SplitPane dividerPositions="0.4" VBox.vgrow="ALWAYS">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <ScrollPane fx:id="scrollp_tasksContainer" prefWidth="410.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                   <content>
+                                                      <AnchorPane minHeight="0.0" minWidth="0.0" />
+                                                   </content>
+                                                </ScrollPane>
+                                             </children>
+                                          </AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Subscribe">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox layoutX="88.0" layoutY="-30.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <HBox alignment="CENTER" prefWidth="200.0">
+                                       <children>
+                                          <Label text="Topic">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField fx:id="tf_subTopic" HBox.hgrow="ALWAYS">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin></TextField>
+                                          <Button fx:id="btn_subscibe" mnemonicParsing="false" onMouseClicked="#subscribe" text="Subscribe" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <SplitPane dividerPositions="0.4" VBox.vgrow="ALWAYS">
+                                      <items>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <ScrollPane fx:id="scrollp_topics" layoutX="67.0" layoutY="41.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" />
+                                                  </content>
+                                                </ScrollPane>
+                                             </children></AnchorPane>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                             <children>
+                                                <ScrollPane fx:id="scrollp_messages" layoutX="-44.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <content>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                                  </content>
+                                                </ScrollPane>
+                                             </children></AnchorPane>
+                                      </items>
+                                    </SplitPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" />
+                           </padding>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab text="Log">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <TextArea fx:id="ta_logs" editable="false" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                                    <Button mnemonicParsing="false" text="Export">
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+            </TabPane>
          </center>
+         <bottom>
+            <HBox BorderPane.alignment="CENTER">
+               <children>
+                  <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/status.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lbl_status">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
+               </padding>
+            </HBox>
+         </bottom>
       </BorderPane>
    </children>
+   <padding>
+      <Insets left="5.0" right="5.0" top="5.0" />
+   </padding>
 </AnchorPane>
