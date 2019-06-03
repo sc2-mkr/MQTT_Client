@@ -102,8 +102,8 @@ public class MqttSubscribersManager implements MqttCallback {
         currentTopic = sub.getTopic();
         ArrayList<MqttMessageExtended> messages = sub.getMessages();
         p_messagesContainer.getChildren().clear();
-        for(MqttMessageExtended msg : messages) {
-            Pane msgGui = MessageGUI.getInstance().generateGUI(msg);
+        for(int i = messages.size() - 1; i >= 0; i--) {
+            Pane msgGui = MessageGUI.getInstance().generateGUI(messages.get(i));
             msgGui.setPadding(new Insets(5));
             p_messagesContainer.getChildren().add(msgGui);
         }
