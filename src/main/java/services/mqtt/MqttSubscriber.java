@@ -16,9 +16,9 @@ public class MqttSubscriber {
         this.topic = topic;
     }
 
-    public boolean isTopicOfThisSubsciber(String topic) {
-        return this.topic.equals(topic);
-    }
+//    public boolean isTopicOfThisSubsciber(String topic) {
+//        return this.topic.equals(topic);
+//    }
 
     public void addMessage(MqttMessageExtended msg) {
         messages.add(msg);

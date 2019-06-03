@@ -40,4 +40,6 @@ public class MqttMessageExtended extends MqttMessage {
     public void setTopic(String topic) {
         this.topic = topic;
     }
+
+    public Date getDate() { return msgArrived; }
 }

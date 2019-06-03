@@ -2,6 +2,7 @@ package services.mqtt;
 
 import fxml.gui.subscriber.MessageGUI;
 import fxml.gui.subscriber.SubscribeGUI;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
@@ -24,6 +25,9 @@ public class MqttSubscribersManager implements MqttCallback {
 
     private VBox p_topicContainer = new VBox();
     private VBox p_messagesContainer = new VBox();
+
+    // Corrent topic's messages showed
+    private String currentTopic = "";
 
     public MqttSubscribersManager(MqttManager manager, ScrollPane topicsPane, ScrollPane messagesPane) {
         this.manager = manager;
@@ -64,7 +68,7 @@ public class MqttSubscribersManager implements MqttCallback {
 
     private boolean isTopicAlreadySubscribed(String topic) {
         for(MqttSubscriber sub : subscribers) {
-            if(sub.isTopicOfThisSubsciber(topic)) {
+            if(sub.getTopic().equals(topic)) {
                 return true;
             }
         }
@@ -79,8 +83,12 @@ public class MqttSubscribersManager implements MqttCallback {
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         for(MqttSubscriber sub : subscribers) {
-            if(sub.isTopicOfThisSubsciber(s)) {
+            if(sub.getTopic().equals(s)) {
                 sub.addMessage(new MqttMessageExtended(s, mqttMessage));
+                if(currentTopic.equals(s)) {
+//                    System.out.println("same topic - " + s);
+                    Platform.runLater(() ->  changeMessagesTopic(sub));
+                }
                 break;
             }
         }
@@ -91,20 +99,16 @@ public class MqttSubscribersManager implements MqttCallback {
 
     }
 
-//    private void updateGUI() {
-//
-//    }
-
     private void changeMessagesTopic(MqttSubscriber sub) {
+        currentTopic = sub.getTopic();
+        System.out.println("message changed: "+ currentTopic);
         ArrayList<MqttMessageExtended> messages = sub.getMessages();
         p_messagesContainer.getChildren().clear();
         for(MqttMessageExtended msg : messages) {
             Pane msgGui = MessageGUI.getInstance().generateGUI(msg);
-                    msgGui.setPadding(new Insets(5));
+            msgGui.setPadding(new Insets(5));
             p_messagesContainer.getChildren().add(msgGui);
         }
-
-
         messagesPane.setContent(p_messagesContainer);
     }
 }
