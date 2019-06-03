@@ -1,5 +1,6 @@
 package services.util.logs;
 
+import configs.Configuration;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
@@ -22,7 +23,7 @@ public class LogSystem {
 
     public void printLog(String msg) {
         lbl_status.setText(msg);
-        SimpleDateFormat formatter= new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat formatter= new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"));
         Date date = new Date(System.currentTimeMillis());
         String msgExtended = MessageFormat.format("[{0}] {1}", formatter.format(date), msg);
         ta_logs.setText(MessageFormat.format("{0}\n{1}", ta_logs.getText(), msgExtended));

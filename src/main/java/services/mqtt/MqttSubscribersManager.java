@@ -86,7 +86,6 @@ public class MqttSubscribersManager implements MqttCallback {
             if(sub.getTopic().equals(s)) {
                 sub.addMessage(new MqttMessageExtended(s, mqttMessage));
                 if(currentTopic.equals(s)) {
-//                    System.out.println("same topic - " + s);
                     Platform.runLater(() ->  changeMessagesTopic(sub));
                 }
                 break;
@@ -101,7 +100,6 @@ public class MqttSubscribersManager implements MqttCallback {
 
     private void changeMessagesTopic(MqttSubscriber sub) {
         currentTopic = sub.getTopic();
-        System.out.println("message changed: "+ currentTopic);
         ArrayList<MqttMessageExtended> messages = sub.getMessages();
         p_messagesContainer.getChildren().clear();
         for(MqttMessageExtended msg : messages) {
