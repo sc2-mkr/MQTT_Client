@@ -4,3 +4,24 @@
 [![license](https://img.shields.io/github/license/iregon/MQTT_Client.svg)](LICENSE)
 
 An easy way to send and receive MQTT messages
+
+## Table of Contents
+
+- [Install](#install)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Install
+
+
+## Usage
+
+
+## Contributing
+
+See [the contributing file](CONTRIBUTING.md)!
+
+## License
+
+[MIT © Alessandro Tornesello.](../LICENSE)
