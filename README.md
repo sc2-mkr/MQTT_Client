@@ -14,6 +14,9 @@ An easy way to send and receive MQTT messages
 
 ## Install
 
+Prerequisites:
+- Java 1.8 or above
+
 
 ## Usage
 
