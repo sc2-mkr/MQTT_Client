@@ -5,7 +5,7 @@ import fxml.gui.TaskGUI;
 import java.util.ArrayList;
 
 public class MqttTaskManager {
-    private static MqttTaskManager ourInstance = new MqttTaskManager();
+    private static MqttTaskManager instance = new MqttTaskManager();
 
     private static ArrayList<TaskGUI> tasks = new ArrayList<>();
 
@@ -13,7 +13,7 @@ public class MqttTaskManager {
     }
 
     public static MqttTaskManager getInstance() {
-        return ourInstance;
+        return instance;
     }
 
     public TaskGUI createNewTaskGui(MqttManager manager) {

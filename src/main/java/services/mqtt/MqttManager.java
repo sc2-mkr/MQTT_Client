@@ -1,5 +1,6 @@
 package services.mqtt;
 
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -21,9 +22,7 @@ public class MqttManager {
     private ScrollPane scrollp_topics;
     private ScrollPane scrollp_messages;
 
-    private boolean isConnected = false;
-
-    public MqttManager(String broker, String port, String clientId, ScrollPane scrollp_topics, ScrollPane scrollp_messages) {
+    public MqttManager(String broker, String port, String clientId, ScrollPane scrollp_topics, ScrollPane scrollp_messages, Button btn_connect, Button btn_disconnect) {
         this.broker = broker;
         this.port = port;
         this.clientId = clientId;
@@ -31,26 +30,21 @@ public class MqttManager {
         this.scrollp_messages = scrollp_messages;
     }
 
-    public boolean connect() {
-        if (isConnected) disconnect();
+    public void connect() {
+//        if (connManager.isConnected()) disconnect();
         try {
             String url = MessageFormat.format("tcp://{0}:{1}", broker, port);
             client = new MqttClient(url, clientId, persistence);
             connManager = new MqttConnectionManager(client);
             connManager.connect();
-            isConnected = true;
-            //MqttListenerManager.getInstance().setClient(client); // TODO move to appropriate position
             subManager = new MqttSubscribersManager(this, scrollp_topics, scrollp_messages);
-            return true;
         } catch (MqttException e) {
             System.err.println(MessageFormat.format("MQTT connect: {0}", e.getMessage())); // TODO use log class
-            isConnected = false;
-            return false;
         }
     }
 
     public void disconnect() {
-        if (isConnected) {
+        if (connManager.isConnected()) {
             try {
                 connManager.disconnect();
             } catch (MqttException e) {

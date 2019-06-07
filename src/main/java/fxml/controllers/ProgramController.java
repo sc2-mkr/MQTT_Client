@@ -34,6 +34,8 @@ public class ProgramController {
     private Button btn_generateUUID;
     @FXML
     private Button btn_connect;
+    @FXML
+    private Button btn_disconnect;
 
     // CENTER
     private FlowPane p_tasksPane = new FlowPane();
@@ -84,8 +86,21 @@ public class ProgramController {
 
     @FXML
     private void connectToBroker(MouseEvent event) {
-        manager = new MqttManager(tf_ipAddress.getText(), tf_port.getText(), tf_clientId.getText(), scrollp_topics, scrollp_messages);
+        manager = new MqttManager(
+                tf_ipAddress.getText(),
+                tf_port.getText(),
+                tf_clientId.getText(),
+                scrollp_topics,
+                scrollp_messages,
+                btn_connect,
+                btn_disconnect
+        );
         manager.connect();
+    }
+
+    @FXML
+    public void disconnect(MouseEvent event) {
+
     }
 
     @FXML
