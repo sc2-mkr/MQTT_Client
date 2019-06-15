@@ -2,7 +2,7 @@ package services.mqtt;
 
 import fxml.gui.ListenerGUI;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import services.util.MqttObserver;
+import services.utils.MqttObserver;
 
 import java.util.ArrayList;
 

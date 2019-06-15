@@ -3,7 +3,7 @@ package services.mqtt;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import services.util.logs.LogSystem;
+import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
 
@@ -21,15 +21,15 @@ public class MqttConnectionManager {
     public void connect() throws MqttException {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
-        LogSystem.getInstance().printLog(MessageFormat.format("Connecting to broker: {0} ...", client.getServerURI()));
+        Logger.getInstance().log(MessageFormat.format("Connecting to broker: {0} ...", client.getServerURI()));
         client.connect(connOpts);
-        LogSystem.getInstance().printLog("Connected to broker.");
+        Logger.getInstance().log("Connected to broker.");
         isConnected = true;
     }
 
     public void disconnect() throws MqttException {
         client.disconnect();
-        LogSystem.getInstance().printLog("Disconnecting from broker...");
+        Logger.getInstance().log("Disconnecting from broker...");
         isConnected = false;
     }
 

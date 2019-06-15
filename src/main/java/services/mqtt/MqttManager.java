@@ -1,5 +1,6 @@
 package services.mqtt;
 
+import io.reactivex.Observable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -17,6 +18,7 @@ public class MqttManager {
     private MqttClient client;
     private MqttConnectionManager connManager;
     private MqttSubscribersManager subManager;
+    private MqttPublishersManager pubManager;
 
     //GUI
     private ScrollPane scrollp_topics;
@@ -38,6 +40,7 @@ public class MqttManager {
             connManager = new MqttConnectionManager(client);
             connManager.connect();
             subManager = new MqttSubscribersManager(this, scrollp_topics, scrollp_messages);
+            pubManager = new MqttPublishersManager();
         } catch (MqttException e) {
             System.err.println(MessageFormat.format("MQTT connect: {0}", e.getMessage())); // TODO use log class
         }
@@ -61,4 +64,6 @@ public class MqttManager {
     public void subscribe(String topic) {
         subManager.addSubscription(topic);
     }
+
+    public void publish(MqttMessageExtended msg, int intervall){}
 }

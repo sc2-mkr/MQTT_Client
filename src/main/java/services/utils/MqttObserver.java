@@ -1,4 +1,4 @@
-package services.util;
+package services.utils;
 
 import services.mqtt.MqttMessageExtended;
 

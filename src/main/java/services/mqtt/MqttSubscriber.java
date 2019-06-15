@@ -1,7 +1,5 @@
 package services.mqtt;
 
-import services.util.MqttObserver;
-
 import java.util.ArrayList;
 
 public class MqttSubscriber {

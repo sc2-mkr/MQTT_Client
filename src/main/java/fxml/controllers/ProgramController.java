@@ -1,13 +1,16 @@
 package fxml.controllers;
 
 import fxml.gui.TaskGUI;
+import fxml.logger.LabelStatusLogger;
+import fxml.logger.TextAreaLogsLogger;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.TextFlow;
 import services.mqtt.MqttManager;
 import services.mqtt.MqttTaskManager;
-import services.util.logs.LogSystem;
+import services.utils.logs.Logger;
 
 import java.util.UUID;
 
@@ -60,7 +63,7 @@ public class ProgramController {
 
 
     @FXML
-    private TextArea ta_logs;
+    private TextFlow tflow_logs;
 
 
 
@@ -78,8 +81,8 @@ public class ProgramController {
     public ProgramController() {}
 
     public void initialize(){
-        LogSystem.getInstance().setLbl_status(lbl_status);
-        LogSystem.getInstance().setTa_logs(ta_logs);
+        Logger.getInstance().addLogger(new LabelStatusLogger(lbl_status));
+        Logger.getInstance().addLogger(new TextAreaLogsLogger(tflow_logs));
         scrollp_topics.setFitToWidth(true);
         scrollp_messages.setFitToWidth(true);
     }
@@ -117,9 +120,11 @@ public class ProgramController {
 
     @FXML
     private void subscribe(MouseEvent event) {
-//        ListenerGUI listener = MqttListenerManager.getInstance().createNewListenerGui(manager);
-//        p_listenersContainer.getChildren().add(listener);
-//        scrollp_listenersContainer.setContent(p_listenersContainer);
         manager.subscribe(tf_subTopic.getText());
+    }
+
+    @FXML
+    private void publish(MouseEvent event) {
+
     }
 }

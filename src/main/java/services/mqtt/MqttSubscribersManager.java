@@ -11,7 +11,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import services.util.logs.LogSystem;
+import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -59,7 +59,7 @@ public class MqttSubscribersManager implements MqttCallback {
         }
 
         Platform.runLater(() -> updateGui());
-        LogSystem.getInstance().printLog(MessageFormat.format("Subscribed to topic \"{0}\"", topic));
+        Logger.getInstance().log(MessageFormat.format("Subscribed to topic \"{0}\"", topic));
     }
 
     private Optional<MqttSubscriber> findSubscriberToTopic(String topic) {
@@ -88,7 +88,7 @@ public class MqttSubscribersManager implements MqttCallback {
         }
 
         Platform.runLater(() -> updateGui());
-        LogSystem.getInstance().printLog(MessageFormat.format("Unsubscribed to topic \"{0}\"", topic));
+        Logger.getInstance().log(MessageFormat.format("Unsubscribed to topic \"{0}\"", topic));
     }
 
     private void updateGui() {
