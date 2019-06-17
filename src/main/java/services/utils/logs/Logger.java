@@ -1,5 +1,7 @@
 package services.utils.logs;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 public class Logger implements LoggerFactory {
@@ -20,12 +22,22 @@ public class Logger implements LoggerFactory {
     }
 
     @Override
-    public void log(String msg) {
-        loggers.stream().forEach(logger -> logger.log(msg));
+    public void log(String msg, Color color) {
+        loggers.stream().forEach(logger -> logger.log(msg, color));
+    }
+
+    @Override
+    public void logInfo(String msg) {
+        loggers.stream().forEach(logger -> logger.logInfo(msg));
     }
 
     @Override
     public void logError(String msg) {
         loggers.stream().forEach(logger -> logger.logError(msg));
+    }
+
+    @Override
+    public void logEditor(String msg) {
+        loggers.stream().forEach(logger -> logger.logEditor(msg));
     }
 }
