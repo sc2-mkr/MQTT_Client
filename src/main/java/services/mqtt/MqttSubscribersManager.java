@@ -49,17 +49,18 @@ public class MqttSubscribersManager implements MqttCallback {
         if (isTopicAlreadySubscribed(topic)) return;
 
         MqttSubscriber sub = new MqttSubscriber(manager, topic);
-        subscribers.add(sub);
 
         // TODO improve with IMqttMessageListener
         try {
             manager.getClient().subscribe(topic);
+            subscribers.add(sub);
         } catch (MqttException e) {
-            e.printStackTrace();
+            Logger.getInstance().logError(MessageFormat.format("MQTT subscription: {0}", e.getMessage()));
+            return;
         }
 
         Platform.runLater(() -> updateGui());
-        Logger.getInstance().log(MessageFormat.format("Subscribed to topic \"{0}\"", topic));
+        Logger.getInstance().logInfo(MessageFormat.format("Subscribed to topic \"{0}\"", topic));
     }
 
     private Optional<MqttSubscriber> findSubscriberToTopic(String topic) {
@@ -88,7 +89,7 @@ public class MqttSubscribersManager implements MqttCallback {
         }
 
         Platform.runLater(() -> updateGui());
-        Logger.getInstance().log(MessageFormat.format("Unsubscribed to topic \"{0}\"", topic));
+        Logger.getInstance().logInfo(MessageFormat.format("Unsubscribed to topic \"{0}\"", topic));
     }
 
     private void updateGui() {

@@ -1,11 +1,11 @@
 package services.mqtt;
 
-import io.reactivex.Observable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
 
@@ -42,7 +42,7 @@ public class MqttManager {
             subManager = new MqttSubscribersManager(this, scrollp_topics, scrollp_messages);
             pubManager = new MqttPublishersManager();
         } catch (MqttException e) {
-            System.err.println(MessageFormat.format("MQTT connect: {0}", e.getMessage())); // TODO use log class
+            Logger.getInstance().logError(MessageFormat.format("MQTT connect: {0}", e.getMessage()));
         }
     }
 
@@ -51,7 +51,7 @@ public class MqttManager {
             try {
                 connManager.disconnect();
             } catch (MqttException e) {
-                System.err.println(MessageFormat.format("MQTT disconnect: {0}", e.getMessage()));// TODO use log class
+                Logger.getInstance().logError(MessageFormat.format("MQTT disconnect: {0}", e.getMessage()));
             }
         }
         System.out.println("Disconnected");
@@ -65,5 +65,7 @@ public class MqttManager {
         subManager.addSubscription(topic);
     }
 
-    public void publish(MqttMessageExtended msg, int intervall){}
+    public void publish(MqttMessageExtended msg, int intervall) {
+        pubManager.addPublish(msg, intervall);
+    }
 }

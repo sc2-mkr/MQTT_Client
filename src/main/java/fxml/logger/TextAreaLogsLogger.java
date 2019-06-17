@@ -20,17 +20,27 @@ public class TextAreaLogsLogger implements LoggerFactory {
     }
 
     @Override
-    public void log(String msg) {
-        appendText(msg, Color.BLACK);
+    public void log(String msg, Color color) {
+        appendText(MessageFormat.format("\t\t\t{0}", msg), Color.BLACK);
+    }
+
+    @Override
+    public void logInfo(String msg) {
+        appendText(MessageFormat.format("[INFO]\t\t{0}", msg), Color.BLACK);
     }
 
     @Override
     public void logError(String msg) {
-        appendText(msg, Color.RED);
+        appendText(MessageFormat.format("[ERROR]\t{0}", msg), Color.RED);
+    }
+
+    @Override
+    public void logEditor(String msg) {
+        appendText(MessageFormat.format("[EDITOR]\t{0}", msg), Color.BLUE);
     }
 
     private void appendText(String msg, Color color) {
-        SimpleDateFormat formatter= new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"));
+        SimpleDateFormat formatter = new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"));
         Date date = new Date(System.currentTimeMillis());
         String msgExtended = MessageFormat.format("[{0}] {1}", formatter.format(date), msg);
 

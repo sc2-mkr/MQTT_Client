@@ -21,15 +21,15 @@ public class MqttConnectionManager {
     public void connect() throws MqttException {
         MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setCleanSession(true);
-        Logger.getInstance().log(MessageFormat.format("Connecting to broker: {0} ...", client.getServerURI()));
+        Logger.getInstance().logInfo(MessageFormat.format("Connecting to broker: {0} ...", client.getServerURI()));
         client.connect(connOpts);
-        Logger.getInstance().log("Connected to broker.");
+        Logger.getInstance().logInfo("Connected to broker.");
         isConnected = true;
     }
 
     public void disconnect() throws MqttException {
         client.disconnect();
-        Logger.getInstance().log("Disconnecting from broker...");
+        Logger.getInstance().logInfo("Disconnecting from broker...");
         isConnected = false;
     }
 

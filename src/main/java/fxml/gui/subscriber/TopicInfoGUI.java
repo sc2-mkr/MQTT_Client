@@ -13,17 +13,18 @@ public class TopicInfoGUI {
 
     private static TopicInfoGUI instance = new TopicInfoGUI();
 
+    private TopicInfoGUI() {
+    }
+
     public static TopicInfoGUI getInstance() {
         return instance;
     }
-
-    private TopicInfoGUI() {}
 
     public Pane generateGUI(MqttSubscribersManager manager, MqttSubscriber sub) {
         HBox pane = new HBox();
         pane.setBackground(new Background(
                 new BackgroundFill(
-                        Color.rgb(0, 255,230),
+                        Color.rgb(0, 255, 230),
                         new CornerRadii(20.0),
                         Insets.EMPTY
                 )

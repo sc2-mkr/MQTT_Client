@@ -7,19 +7,18 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import services.mqtt.MqttMessageExtended;
-import services.mqtt.MqttSubscriber;
 
 import java.text.SimpleDateFormat;
 
 public class MessageGUI {
     private static MessageGUI instance = new MessageGUI();
 
-    public static MessageGUI getInstance() {
-        return instance;
-    }
-
     private MessageGUI() {
 
+    }
+
+    public static MessageGUI getInstance() {
+        return instance;
     }
 
     public Pane generateGUI(MqttMessageExtended sub) {
@@ -27,7 +26,7 @@ public class MessageGUI {
         pane.setSpacing(5);
         pane.setBackground(new Background(
                 new BackgroundFill(
-                        Color.rgb(255, 231,0),
+                        Color.rgb(255, 231, 0),
                         new CornerRadii(20.0),
                         Insets.EMPTY
                 )

@@ -41,5 +41,7 @@ public class MqttMessageExtended extends MqttMessage {
         this.topic = topic;
     }
 
-    public Date getDate() { return msgArrived; }
+    public Date getDate() {
+        return msgArrived;
+    }
 }
