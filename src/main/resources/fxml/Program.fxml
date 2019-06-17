@@ -230,11 +230,11 @@
                            <children>
                               <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <TextFlow fx:id="tflow_logs" style="-fx-background-color: #fff; -fx-border-color: #ccc;" VBox.vgrow="ALWAYS">
+                                    <TextFlow fx:id="tflow_logs" style="-fx-background-color: #fff; -fx-border-color: #ccc; -fx-border-radius: 3;" VBox.vgrow="ALWAYS">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding></TextFlow>
-                                    <Button mnemonicParsing="false" text="Export">
+                                    <Button fx:id="btn_exportLogs" mnemonicParsing="false" onMouseClicked="#exportLogs" text="Export">
                                        <VBox.margin>
                                           <Insets top="5.0" />
                                        </VBox.margin>
