@@ -1,4 +1,6 @@
-package services.mqtt;
+package services.mqtt.publisher;
+
+import services.mqtt.messagges.MqttMessageExtended;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,7 +24,7 @@ public class MqttPublisher implements Runnable {
 
     @Override
     public void run() {
-        if(isLoop) timer.schedule(task, 0, interval);
+        if (isLoop) timer.schedule(task, 0, interval);
         else timer.schedule(task, 0);
     }
 

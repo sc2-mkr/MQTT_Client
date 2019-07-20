@@ -6,7 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import services.mqtt.MqttMessageExtended;
+import services.mqtt.messagges.MqttMessageExtended;
 
 import java.text.SimpleDateFormat;
 

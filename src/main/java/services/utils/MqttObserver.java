@@ -1,6 +1,6 @@
 package services.utils;
 
-import services.mqtt.MqttMessageExtended;
+import services.mqtt.messagges.MqttMessageExtended;
 
 public interface MqttObserver {
     void update(MqttMessageExtended msg);

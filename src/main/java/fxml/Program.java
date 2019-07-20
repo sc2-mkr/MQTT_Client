@@ -2,7 +2,6 @@ package fxml;
 
 import configs.Configuration;
 import fxml.controllers.ProgramController;
-import fxml.controllers.WindowEventHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -54,7 +53,7 @@ public class Program extends Application {
     }
 
     @Override
-    public void stop(){
+    public void stop() {
 
     }
 }

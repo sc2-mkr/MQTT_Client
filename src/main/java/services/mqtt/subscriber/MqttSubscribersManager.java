@@ -1,4 +1,4 @@
-package services.mqtt;
+package services.mqtt.subscriber;
 
 import fxml.gui.subscriber.MessageGUI;
 import fxml.gui.subscriber.TopicInfoGUI;
@@ -11,6 +11,8 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import services.mqtt.MqttManager;
+import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
@@ -28,7 +30,7 @@ public class MqttSubscribersManager implements MqttCallback {
     private VBox p_topicContainer = new VBox();
     private VBox p_messagesContainer = new VBox();
 
-    // Corrent topic's messages showed
+    // Current topic's messages showed
     private String currentTopic = "";
 
     public MqttSubscribersManager(MqttManager manager, ScrollPane topicsPane, ScrollPane messagesPane) {

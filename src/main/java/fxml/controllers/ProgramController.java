@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.TextFlow;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import services.mqtt.MqttManager;
-import services.mqtt.MqttMessageExtended;
+import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.fxUtils.TextFlowUtils;
 import services.utils.io.WriteOnFile;
 import services.utils.logs.Logger;
@@ -137,8 +137,8 @@ public class ProgramController {
 
     @FXML
     private void publish(MouseEvent event) {
-        if(fieldsEmpty()) {
-
+        if (fieldsEmpty()) {
+            // TODO show window dialog
         }
         else {
             MqttMessage msg = new MqttMessage(tf_payload.getText().getBytes());
@@ -155,10 +155,9 @@ public class ProgramController {
     }
 
     private boolean fieldsEmpty() {
-        if(tf_topic.getText().isEmpty() ||
+        return tf_topic.getText().isEmpty() ||
                 tf_payload.getText().isEmpty() ||
-                (tf_interval.getText().isEmpty() && cb_loop.isSelected())) return true;
-        return false;
+                (tf_interval.getText().isEmpty() && cb_loop.isSelected());
     }
 
     @FXML
@@ -184,7 +183,7 @@ public class ProgramController {
     }
 
     public void windowClosing() {
-        if(manager != null) manager.getPubManager().stopAllPublishers();
+        if (manager != null) manager.getPubManager().stopAllPublishers();
         Platform.exit();
         System.exit(0);
     }

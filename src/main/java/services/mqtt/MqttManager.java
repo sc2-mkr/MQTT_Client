@@ -5,6 +5,10 @@ import javafx.scene.control.ScrollPane;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import services.mqtt.connection.MqttConnectionManager;
+import services.mqtt.messagges.MqttMessageExtended;
+import services.mqtt.publisher.MqttPublishersManager;
+import services.mqtt.subscriber.MqttSubscribersManager;
 import services.utils.logs.Logger;
 
 import java.text.MessageFormat;

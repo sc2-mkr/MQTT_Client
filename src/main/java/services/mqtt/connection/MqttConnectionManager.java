@@ -1,4 +1,4 @@
-package services.mqtt;
+package services.mqtt.connection;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;

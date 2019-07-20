@@ -1,4 +1,4 @@
-package services.mqtt;
+package services.mqtt.messagges;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 

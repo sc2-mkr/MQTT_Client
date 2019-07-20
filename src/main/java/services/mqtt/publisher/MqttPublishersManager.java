@@ -1,6 +1,7 @@
-package services.mqtt;
+package services.mqtt.publisher;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
+import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
 
 import java.text.MessageFormat;

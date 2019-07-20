@@ -1,4 +1,7 @@
-package services.mqtt;
+package services.mqtt.subscriber;
+
+import services.mqtt.MqttManager;
+import services.mqtt.messagges.MqttMessageExtended;
 
 import java.util.ArrayList;
 

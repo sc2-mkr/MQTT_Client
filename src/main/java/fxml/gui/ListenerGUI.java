@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import services.mqtt.MqttManager;
-import services.mqtt.MqttMessageExtended;
+import services.mqtt.messagges.MqttMessageExtended;
 
 public class ListenerGUI extends FlowPane {
 

@@ -6,8 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import services.mqtt.MqttSubscriber;
-import services.mqtt.MqttSubscribersManager;
+import services.mqtt.subscriber.MqttSubscriber;
+import services.mqtt.subscriber.MqttSubscribersManager;
 
 public class TopicInfoGUI {
 
