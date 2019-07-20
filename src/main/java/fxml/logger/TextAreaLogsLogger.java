@@ -1,6 +1,7 @@
 package fxml.logger;
 
 import configs.Configuration;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -47,6 +48,6 @@ public class TextAreaLogsLogger implements LoggerFactory {
         Text t = new Text(MessageFormat.format("{0}\n", msgExtended));
         t.setStyle(MessageFormat.format("-fx-fill: {0};", ColorUtils.getInstance().toHexCode(color)));
 
-        tflow_logs.getChildren().add(t);
+        Platform.runLater(() -> tflow_logs.getChildren().add(t));
     }
 }

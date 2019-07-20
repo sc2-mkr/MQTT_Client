@@ -1,5 +1,6 @@
 package fxml.logger;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import services.utils.logs.LoggerFactory;
@@ -14,7 +15,7 @@ public class LabelStatusLogger implements LoggerFactory {
 
     @Override
     public void log(String msg, Color color) {
-        lbl_status.setText(msg);
+        Platform.runLater(() -> lbl_status.setText(msg));
     }
 
     @Override
