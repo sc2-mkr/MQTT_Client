@@ -40,7 +40,7 @@ public class MqttManager {
             connManager = new MqttConnectionManager(client);
             connManager.connect();
             subManager = new MqttSubscribersManager(this, scrollp_topics, scrollp_messages);
-            pubManager = new MqttPublishersManager();
+            pubManager = new MqttPublishersManager(client);
         } catch (MqttException e) {
             Logger.getInstance().logError(MessageFormat.format("MQTT connect: {0}", e.getMessage()));
         }
@@ -65,7 +65,11 @@ public class MqttManager {
         subManager.addSubscription(topic);
     }
 
-    public void publish(MqttMessageExtended msg, int intervall) {
-        pubManager.addPublish(msg, intervall);
+    public void publish(MqttMessageExtended msg, int intervall, boolean isLoop) {
+        pubManager.addPublisher(msg, intervall, isLoop);
+    }
+
+    public MqttPublishersManager getPubManager() {
+        return pubManager;
     }
 }
