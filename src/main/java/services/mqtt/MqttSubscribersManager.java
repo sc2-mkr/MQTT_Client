@@ -59,6 +59,7 @@ public class MqttSubscribersManager implements MqttCallback {
             return;
         }
 
+        // TODO manage with RX
         Platform.runLater(() -> updateGui());
         Logger.getInstance().logInfo(MessageFormat.format("Subscribed to topic \"{0}\"", topic));
     }
@@ -123,6 +124,10 @@ public class MqttSubscribersManager implements MqttCallback {
 
     @Override
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+        Logger.getInstance().logInfo(MessageFormat.format(
+                "Message arrived: Topic: {0}, Payload: {1}",
+                s,
+                new String(mqttMessage.getPayload())));
         for (MqttSubscriber sub : subscribers) {
             if (sub.getTopic().equals(s)) {
                 sub.addMessage(new MqttMessageExtended(s, mqttMessage));
