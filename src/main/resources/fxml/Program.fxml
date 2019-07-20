@@ -108,30 +108,30 @@
                                                    </padding></Label>
                                                 <TextField fx:id="tf_topic" GridPane.columnIndex="1" GridPane.columnSpan="2" />
                                                 <TextField fx:id="tf_payload" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-                                                <HBox GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                                                <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                                                    <children>
-                                                      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" selected="true" text="0">
+                                                      <RadioButton fx:id="rb_qos0" contentDisplay="CENTER" mnemonicParsing="false" selected="true" text="0">
                                                          <HBox.margin>
-                                                            <Insets right="5.0" />
+                                                            <Insets right="15.0" />
                                                          </HBox.margin>
                                                          <toggleGroup>
                                                             <ToggleGroup fx:id="qos" />
                                                          </toggleGroup>
                                                       </RadioButton>
-                                                      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" text="1" toggleGroup="$qos">
+                                                      <RadioButton fx:id="rb_qos1" contentDisplay="CENTER" mnemonicParsing="false" text="1" toggleGroup="$qos">
                                                          <HBox.margin>
-                                                            <Insets right="5.0" />
+                                                            <Insets right="15.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
-                                                      <RadioButton contentDisplay="CENTER" mnemonicParsing="false" text="2" toggleGroup="$qos">
+                                                      <RadioButton fx:id="rb_qos2" contentDisplay="CENTER" mnemonicParsing="false" text="2" toggleGroup="$qos">
                                                          <HBox.margin>
                                                             <Insets right="5.0" />
                                                          </HBox.margin>
                                                       </RadioButton>
                                                    </children>
                                                 </HBox>
-                                                <TextField fx:id="tf_intervall" disable="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                                                <Label disable="true" text="Interval" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                <TextField fx:id="tf_interval" disable="true" text="0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                                                <Label fx:id="lbl_interval" disable="true" text="Interval (ms)" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                 <CheckBox fx:id="cb_retained" mnemonicParsing="false" text="Retained" GridPane.rowIndex="3" />
                                                 <CheckBox fx:id="cb_loop" mnemonicParsing="false" text="Loop" GridPane.rowIndex="4" />
                                              </children>
