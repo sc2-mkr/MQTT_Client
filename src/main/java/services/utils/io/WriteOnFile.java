@@ -8,11 +8,11 @@ import java.io.IOException;
 public class WriteOnFile {
     private static WriteOnFile instance = new WriteOnFile();
 
-    public static WriteOnFile getInstance() {
-        return instance;
+    private WriteOnFile() {
     }
 
-    private WriteOnFile() {
+    public static WriteOnFile getInstance() {
+        return instance;
     }
 
     public void write(File file, String text, boolean append) throws IOException {

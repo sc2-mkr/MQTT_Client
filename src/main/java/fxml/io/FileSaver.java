@@ -8,11 +8,11 @@ import java.io.File;
 public class FileSaver {
     private static FileSaver instance = new FileSaver();
 
-    public static FileSaver getInstance() {
-        return instance;
+    private FileSaver() {
     }
 
-    private FileSaver() {
+    public static FileSaver getInstance() {
+        return instance;
     }
 
     public File getFile() {
