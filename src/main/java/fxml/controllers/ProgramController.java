@@ -4,21 +4,22 @@ import fxml.io.FileSaver;
 import fxml.logger.ConsoleLogger;
 import fxml.logger.LabelStatusLogger;
 import fxml.logger.TextAreaLogsLogger;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import services.mqtt.MqttManager;
 import services.mqtt.MqttMessageExtended;
+import services.utils.fxUtils.TextFlowUtils;
 import services.utils.io.WriteOnFile;
 import services.utils.logs.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Objects;
 import java.util.UUID;
 
 public class ProgramController {
@@ -29,38 +30,21 @@ public class ProgramController {
     // BEGIN GUI
     // TOP
     @FXML
-    private Label lbl_ipAddress;
-    @FXML
     private TextField tf_ipAddress;
-    @FXML
-    private Label lbl_port;
     @FXML
     private TextField tf_port;
     @FXML
-    private Label lbl_clientId;
-    @FXML
     private TextField tf_clientId;
-    @FXML
-    private Button btn_generateUUID;
     @FXML
     private Button btn_connect;
     @FXML
     private Button btn_disconnect;
 
     // CENTER
-//    private FlowPane p_tasksPane = new FlowPane();
-//    @FXML
-//    private Button btn_addTask;
-//    @FXML
-//    private ScrollPane scrollp_tasksContainer;
-//    private FlowPane p_listenersContainer = new FlowPane();
-
 
     // Subscription
     @FXML
     private TextField tf_subTopic;
-    //    @FXML
-//    private Button btn_subscibe;
     @FXML
     private ScrollPane scrollp_topics;
     @FXML
@@ -72,11 +56,18 @@ public class ProgramController {
     @FXML
     private TextField tf_payload;
     @FXML
+    private RadioButton rb_qos0, rb_qos1, rb_qos2;
+    private int currentQos = 0;
+    @FXML
+    private ToggleGroup qos;
+    @FXML
     private CheckBox cb_retained;
     @FXML
     private CheckBox cb_loop;
     @FXML
-    private TextField tf_intervall;
+    private Label lbl_interval;
+    @FXML
+    private TextField tf_interval;
 
 
     @FXML
@@ -84,13 +75,10 @@ public class ProgramController {
 
 
     // BOTTOM
-    @FXML
-    private Label lbl_statusFixedText;
-    // END GUI
 
     @FXML
     private Label lbl_status;
-
+    // END GUI
 
     public ProgramController() {
     }
@@ -101,6 +89,21 @@ public class ProgramController {
         Logger.getInstance().addLogger(new ConsoleLogger()); // TODO remove after tests
         scrollp_topics.setFitToWidth(true);
         scrollp_messages.setFitToWidth(true);
+
+        rb_qos0.setUserData(0);
+        rb_qos1.setUserData(1);
+        rb_qos2.setUserData(2);
+        qos.selectedToggleProperty().addListener((ov, old_toggle, new_toggle) -> {
+            if (qos.getSelectedToggle() != null) {
+                currentQos = (int) qos.getSelectedToggle().getUserData();
+            }
+        });
+
+        cb_loop.selectedProperty().addListener((toggle) -> {
+            lbl_interval.setDisable(!cb_loop.isSelected());
+            tf_interval.setDisable(!cb_loop.isSelected());
+
+        });
     }
 
     @FXML
@@ -127,13 +130,6 @@ public class ProgramController {
         tf_clientId.setText(UUID.randomUUID().toString());
     }
 
-//    @FXML
-//    private void addTask(MouseEvent event) {
-//        TaskGUI task = MqttTaskManager.getInstance().createNewTaskGui(manager);
-//        p_tasksPane.getChildren().add(task);
-//        scrollp_tasksContainer.setContent(p_tasksPane);
-//    }
-
     @FXML
     private void subscribe(MouseEvent event) {
         manager.subscribe(tf_subTopic.getText());
@@ -141,35 +137,55 @@ public class ProgramController {
 
     @FXML
     private void publish(MouseEvent event) {
-        MqttMessage msg = new MqttMessage();
-        MqttMessageExtended msgExtended = new MqttMessageExtended();
-        try {
-            manager.publish(msgExtended, Integer.parseInt(tf_intervall.getText()));
-        } catch (NumberFormatException e) {
-            Logger.getInstance().logError(MessageFormat.format("MQTT publish: {0}", e.getMessage()));
+        if(fieldsEmpty()) {
+
         }
+        else {
+            MqttMessage msg = new MqttMessage(tf_payload.getText().getBytes());
+            msg.setQos(currentQos);
+            msg.setRetained(cb_retained.isSelected());
+            MqttMessageExtended msgExtended = new MqttMessageExtended(tf_topic.getText(), msg);
+            try {
+                manager.publish(msgExtended, Integer.parseInt(tf_interval.getText()), cb_loop.isSelected());
+            } catch (NumberFormatException e) {
+                Logger.getInstance().logError(MessageFormat.format("MQTT publish: {0}", e.getMessage()));
+            }
+        }
+
+    }
+
+    private boolean fieldsEmpty() {
+        if(tf_topic.getText().isEmpty() ||
+                tf_payload.getText().isEmpty() ||
+                (tf_interval.getText().isEmpty() && cb_loop.isSelected())) return true;
+        return false;
     }
 
     @FXML
     private void exportLogs(MouseEvent event) {
-        String text = "";
-
-        // Impossible to use stream because text must be final
-        for(Node row : tflow_logs.getChildren()) {
-            text = MessageFormat.format("{0}{1}", text, ((Text) row).getText());
-        }
-
+        String text = TextFlowUtils.getInstance().getTextFromTextFlow(tflow_logs);
         File file = FileSaver.getInstance().getFile();
 
         if (file != null) {
             try {
                 WriteOnFile.getInstance().write(file, text);
             } catch (IOException e) {
-                Logger.getInstance().logError(MessageFormat.format("Logs saver: {0}", e.getMessage()));
+                Logger.getInstance().logError(MessageFormat.format(
+                        "Logs export: {0}",
+                        e.getMessage()));
                 return;
             }
         }
 
-        Logger.getInstance().logEditor(MessageFormat.format("Logs saved successfully. Location: {0}", file.getAbsolutePath()));
+        Logger.getInstance().logEditor(MessageFormat.format(
+                "Logs saved successfully. Location: {0}",
+                Objects.requireNonNull(file).getAbsolutePath())
+        );
+    }
+
+    public void windowClosing() {
+        if(manager != null) manager.getPubManager().stopAllPublishers();
+        Platform.exit();
+        System.exit(0);
     }
 }
