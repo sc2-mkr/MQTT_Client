@@ -41,13 +41,22 @@ public class TextAreaLogsLogger implements LoggerFactory {
     }
 
     private void appendText(String msg, Color color) {
-        SimpleDateFormat formatter = new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"));
-        Date date = new Date(System.currentTimeMillis());
-        String msgExtended = MessageFormat.format("[{0}] {1}", formatter.format(date), msg);
+        String msgExtended = MessageFormat.format("[{0}] {1}", getDateFormatted(), msg);
 
-        Text t = new Text(MessageFormat.format("{0}\n", msgExtended));
-        t.setStyle(MessageFormat.format("-fx-fill: {0};", ColorUtils.getInstance().toHexCode(color)));
+        Text t = getText(msgExtended, color);
 
         Platform.runLater(() -> tflow_logs.getChildren().add(t));
+    }
+
+    private Text getText(String msg, Color color) {
+        Text t = new Text(MessageFormat.format("{0}\n", msg));
+        t.setStyle(MessageFormat.format("-fx-fill: {0};", ColorUtils.getInstance().toHexCode(color)));
+        return t;
+    }
+
+    private String getDateFormatted() {
+        SimpleDateFormat formatter = new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"));
+        Date date = new Date(System.currentTimeMillis());
+        return formatter.format(date);
     }
 }
