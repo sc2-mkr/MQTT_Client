@@ -36,22 +36,28 @@ public class TextAreaLogsLogger implements LoggerFactory {
     }
 
     @Override
-    public void logEditor(String msg) {
-        appendText(MessageFormat.format("[EDITOR]\t{0}", msg), Color.BLUE);
+    public void logClient(String msg) {
+        appendText(MessageFormat.format("[CLIENT]\t{0}", msg), Color.BLUE);
     }
 
     private void appendText(String msg, Color color) {
         String msgExtended = MessageFormat.format("[{0}] {1}", getDateFormatted(), msg);
 
-        Text t = getText(msgExtended, color);
+        Text t = getTextFormatted(msgExtended, color);
 
         Platform.runLater(() -> tflow_logs.getChildren().add(t));
     }
 
-    private Text getText(String msg, Color color) {
+    private Text getTextFormatted(String msg, Color color) {
+        msg = formatText(msg);
         Text t = new Text(MessageFormat.format("{0}\n", msg));
         t.setStyle(MessageFormat.format("-fx-fill: {0};", ColorUtils.getInstance().toHexCode(color)));
         return t;
+    }
+
+    private String formatText(String text) {
+        String msg = text.replace("\n", "\n\t\t\t\t\t\t\t");
+        return msg;
     }
 
     private String getDateFormatted() {

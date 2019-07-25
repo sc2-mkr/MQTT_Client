@@ -9,6 +9,5 @@ public interface LoggerFactory {
 
     void logError(String msg);
 
-    // TODO change logEditor on something more indicated
-    void logEditor(String msg);
+    void logClient(String msg);
 }

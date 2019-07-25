@@ -15,21 +15,27 @@ public class LabelStatusLogger implements LoggerFactory {
 
     @Override
     public void log(String msg, Color color) {
-        Platform.runLater(() -> lbl_status.setText(msg));
+        Platform.runLater(() -> lbl_status.setText(formatText(msg)));
     }
 
     @Override
     public void logInfo(String msg) {
-        log(msg, Color.BLACK);
+        log(msg, null);
     }
 
     @Override
     public void logError(String msg) {
-        log(msg, Color.BLACK);
+        log(msg, null);
     }
 
     @Override
-    public void logEditor(String msg) {
-        log(msg, Color.BLACK);
+    public void logClient(String msg) {
+        log(msg, null);
+    }
+
+    private String formatText(String text) {
+        String msg = text;
+        if(msg.contains("\n")) msg = msg.substring(0, msg.indexOf("\n"));
+        return msg;
     }
 }

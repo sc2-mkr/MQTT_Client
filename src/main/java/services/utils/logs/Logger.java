@@ -37,7 +37,7 @@ public class Logger implements LoggerFactory {
     }
 
     @Override
-    public void logEditor(String msg) {
-        loggers.stream().forEach(logger -> logger.logEditor(msg));
+    public void logClient(String msg) {
+        loggers.stream().forEach(logger -> logger.logClient(msg));
     }
 }

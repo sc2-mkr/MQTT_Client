@@ -24,7 +24,7 @@ public class ConsoleLogger implements LoggerFactory {
     }
 
     @Override
-    public void logEditor(String msg) {
+    public void logClient(String msg) {
         log(msg, Color.BLACK);
     }
 }
