@@ -1,9 +1,13 @@
 package services.mqtt.publisher;
 
 import exceptions.InvalidQosException;
+import javafx.scene.paint.Color;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import services.utils.logs.Logger;
+
+import java.text.MessageFormat;
 
 public class MqttMessageSender {
 
@@ -22,7 +26,11 @@ public class MqttMessageSender {
         MqttMessage message = new MqttMessage(content.getBytes());
         message.setQos(qos);
         client.publish(topic, message);
-        //System.out.println("Message published"); // TODO logging
+        Logger.getInstance().logInfo(MessageFormat.format(
+                "Message sended.\nTopic: {0}, content: {1}, qos: {2}",
+                topic,
+                content,
+                qos));
     }
 
     public void setClient(MqttClient client) {
