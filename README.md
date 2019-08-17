@@ -33,4 +33,4 @@ See [the contributing file](CONTRIBUTING.md)!
 
 ## License
 
-[MIT © Alessandro Tornesello.](../LICENSE)
+[MIT © Alessandro Tornesello.](LICENSE)
