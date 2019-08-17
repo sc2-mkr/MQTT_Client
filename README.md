@@ -9,7 +9,6 @@ An easy way to send and receive MQTT messages
 ## Table of Contents
 
 - [Install](#install)
-- [Usage](#usage)
 - [TODO](#todo)
 - [Contributing](#contributing)
 - [License](#license)
@@ -18,10 +17,6 @@ An easy way to send and receive MQTT messages
 
 Prerequisites:
 - Java 1.8 or above
-
-
-## Usage
-
 
 ## TODO
 - Server status page ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=brigthgreen)
