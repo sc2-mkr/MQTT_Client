@@ -19,8 +19,12 @@ Prerequisites:
 - Java 1.8 or above
 
 ## TODO
-- Server status tab ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=brigthgreen)
-- Saving settings for server connection 
+- Broker status tab ![Part Status](https://img.shields.io/static/v1?label=&message=coming%20soon&color=brigthgreen)
+- Saving settings for server connection ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=brigthgreen)
+- User connection credential in connection profile
+- SSL/TLS support
+- Message payload advanced inspection
+- Message payload Base64 support
 
 ## Contributing
 
