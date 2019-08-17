@@ -10,6 +10,7 @@ An easy way to send and receive MQTT messages
 
 - [Install](#install)
 - [Usage](#usage)
+- [TODO](#todo)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -21,6 +22,10 @@ Prerequisites:
 
 ## Usage
 
+
+## TODO
+- Server status page ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=brigthgreen)
+- Saving settings for server connection 
 
 ## Contributing
 
