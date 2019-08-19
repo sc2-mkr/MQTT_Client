@@ -18,6 +18,9 @@ An easy way to send and receive MQTT messages
 Prerequisites:
 - Java 1.8 or above
 
+Download latest version in release tab, install it and enjoy!
+(Wiki cooming soon)
+
 ## TODO
 - Broker status tab ![Part Status](https://img.shields.io/static/v1?label=&message=coming%20soon&color=brigthgreen)
 - Saving settings for server connection ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=brigthgreen)
