@@ -13,9 +13,7 @@ import java.text.SimpleDateFormat;
 public class MessageGUI {
     private static MessageGUI instance = new MessageGUI();
 
-    private MessageGUI() {
-
-    }
+    private MessageGUI() {}
 
     public static MessageGUI getInstance() {
         return instance;

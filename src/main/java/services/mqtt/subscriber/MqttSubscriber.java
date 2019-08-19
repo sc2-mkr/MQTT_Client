@@ -5,6 +5,7 @@ import services.mqtt.messagges.MqttMessageExtended;
 
 import java.util.ArrayList;
 
+@Deprecated
 public class MqttSubscriber {
 
     private MqttManager manager;

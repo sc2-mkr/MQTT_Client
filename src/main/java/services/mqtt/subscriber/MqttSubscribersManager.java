@@ -1,12 +1,7 @@
 package services.mqtt.subscriber;
 
-import fxml.gui.subscriber.MessageGUI;
-import fxml.gui.subscriber.TopicInfoGUI;
-import javafx.application.Platform;
-import javafx.geometry.Insets;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -16,108 +11,68 @@ import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class MqttSubscribersManager implements MqttCallback {
 
     private MqttManager manager;
 
-    private ArrayList<MqttSubscriber> subscribers = new ArrayList<>();
-    private ScrollPane topicsPane;
-    private ScrollPane messagesPane;
-
-    private VBox p_topicContainer = new VBox();
-    private VBox p_messagesContainer = new VBox();
+    // ArrayList with all arrived messages
+    private ObservableList<MqttMessageExtended> messages = FXCollections.observableArrayList();
+    // ArrayList with all subscribed topic
+    private ObservableList<String> topics = FXCollections.observableArrayList();
 
     // Current topic's messages showed
-    private String currentTopic = "";
+    // TRUST ME! I PERHAPS KNOW WHAT I DO!
+    private ObservableList<String> currentTopic = FXCollections.observableArrayList("ALL MESSAGES");
 
-    public MqttSubscribersManager(MqttManager manager, ScrollPane topicsPane, ScrollPane messagesPane) {
+    public MqttSubscribersManager(MqttManager manager) {
         this.manager = manager;
         this.manager.getClient().setCallback(this);
-        this.topicsPane = topicsPane;
-        this.messagesPane = messagesPane;
 
-        // GUI
-        p_topicContainer.setPadding(new Insets(5));
-        p_topicContainer.setSpacing(5);
-
-        p_messagesContainer.setPadding(new Insets(5));
-        p_messagesContainer.setSpacing(5);
+        // Option for showing all messages
+        topics.add("ALL MESSAGES");
     }
 
     public void addSubscription(String topic) {
         if (isTopicAlreadySubscribed(topic)) return;
 
-        MqttSubscriber sub = new MqttSubscriber(manager, topic);
-
-        // TODO improve with IMqttMessageListener
         try {
             manager.getClient().subscribe(topic);
-            subscribers.add(sub);
+            topics.add(topic);
+
         } catch (MqttException e) {
             Logger.getInstance().logError(MessageFormat.format("MQTT subscription: {0}", e.getMessage()));
             return;
         }
 
-        // TODO manage with RX
-        Platform.runLater(() -> updateGui());
         Logger.getInstance().logInfo(MessageFormat.format("Subscribed to topic \"{0}\"", topic));
     }
 
-    private Optional<MqttSubscriber> findSubscriberToTopic(String topic) {
-        return subscribers.stream()
-                .filter(sub -> sub.getTopic().equals(topic))
-                .findFirst();
-    }
-
-    public void removeSubscription(MqttSubscriber subscriber) {
+    public void removeTopic(String topic) {
         // TODO manage exception
         try {
-            manager.getClient().unsubscribe(subscriber.getTopic());
-            subscribers.remove(subscriber);
+            manager.getClient().unsubscribe(topic);
+            topics.remove(topic);
         } catch (MqttException e) {
             e.printStackTrace();
         }
 
-        String topic = subscriber.getTopic();
-
         if (currentTopic.equals(topic)) {
-            Optional<MqttSubscriber> first = subscribers.stream().findFirst();
-            if (first.isPresent()) {
-                Platform.runLater(() -> changeMessagesTopic(first.get()));
-                currentTopic = first.get().getTopic();
-            } else Platform.runLater(() -> cleanMessages());
+            Optional<String> firstTopic = topics.stream().findFirst();
+            firstTopic.ifPresent(s -> currentTopic.set(0, s));
         }
 
-        // TODO manage with RX
-        Platform.runLater(() -> updateGui());
-        Logger.getInstance().logInfo(MessageFormat.format("Unsubscribed to topic \"{0}\"", topic));
-    }
-
-    private void updateGui() {
-        p_topicContainer.getChildren().clear();
-        for (MqttSubscriber sub : subscribers) {
-            Pane subGui = TopicInfoGUI.getInstance().generateGUI(this, sub);
-            subGui.setPadding(new Insets(5));
-            subGui.setOnMouseClicked((event) -> changeMessagesTopic(sub));
-            p_topicContainer.getChildren().add(subGui);
-        }
-        topicsPane.setContent(p_topicContainer);
+        Logger.getInstance().logInfo(MessageFormat.format("Unsubscribed from topic \"{0}\"", topic));
     }
 
     private boolean isTopicAlreadySubscribed(String topic) {
-        for (MqttSubscriber sub : subscribers) {
-            if (sub.getTopic().equals(topic)) {
+        for (String t : topics) {
+            if (t.equals(topic)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private void cleanMessages() {
-        messagesPane.setContent(new Pane());
     }
 
     @Override
@@ -133,15 +88,11 @@ public class MqttSubscribersManager implements MqttCallback {
                 s,
                 new String(mqttMessage.getPayload()),
                 mqttMessage.getQos()));
-        for (MqttSubscriber sub : subscribers) {
-            if (sub.getTopic().equals(s)) {
-                sub.addMessage(new MqttMessageExtended(s, mqttMessage));
-                if (currentTopic.equals(s)) {
-                    Platform.runLater(() -> changeMessagesTopic(sub));
-                }
-                break;
-            }
-        }
+
+        MqttMessageExtended msg = new MqttMessageExtended(s, mqttMessage);
+        messages.add(msg);
+
+//        if(currentTopic.equals(s)) Platform.runLater(() -> updateMessagesGui(s));
     }
 
     @Override
@@ -149,15 +100,19 @@ public class MqttSubscribersManager implements MqttCallback {
         // TODO manage delivery complete
     }
 
-    private void changeMessagesTopic(MqttSubscriber sub) {
-        currentTopic = sub.getTopic();
-        ArrayList<MqttMessageExtended> messages = sub.getMessages();
-        p_messagesContainer.getChildren().clear();
-        for (int i = messages.size() - 1; i >= 0; i--) {
-            Pane msgGui = MessageGUI.getInstance().generateGUI(messages.get(i));
-            msgGui.setPadding(new Insets(5));
-            p_messagesContainer.getChildren().add(msgGui);
-        }
-        messagesPane.setContent(p_messagesContainer);
+    public void changeMessagesTopic(String topic) {
+        currentTopic.set(0, topic);
+    }
+
+    public ObservableList<String> getObservableTopicsList() {
+        return topics;
+    }
+
+    public ObservableList<String> getObservableCurrentTopic() {
+        return currentTopic;
+    }
+
+    public ObservableList<MqttMessageExtended> getObservableMessagesList() {
+        return messages;
     }
 }

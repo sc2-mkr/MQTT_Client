@@ -1,5 +1,7 @@
 package services.mqtt.publisher;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
@@ -9,7 +11,9 @@ import java.util.ArrayList;
 
 public class MqttPublishersManager {
 
-    private ArrayList<MqttPublisher> publishers = new ArrayList<>();
+    private ObservableList<MqttPublisher> publishers = FXCollections.observableArrayList();
+
+//    private ArrayList<MqttPublisher> publishers = new ArrayList<>();
 
     public MqttPublishersManager(MqttClient client) {
         MqttMessageSender.getInstance().setClient(client);
@@ -19,16 +23,20 @@ public class MqttPublishersManager {
         MqttPublisher pub = new MqttPublisher(msg, interval, isLoop);
         publishers.add(pub);
         Thread t = new Thread(pub);
-        printLog(msg, interval, isLoop);
         t.start();
+        printLog(msg);
     }
 
-    private void printLog(MqttMessageExtended mqttMsg, int interval, boolean isLoop) {
-        String msg = MessageFormat.format("Added publisher: Topic: {0}, Payload: {1}", mqttMsg.getTopic(), mqttMsg.getPayloadString());
+    private void printLog(MqttMessageExtended mqttMsg) {
+        String msg = MessageFormat.format("Added publisher.\nTopic: {0}", mqttMsg.getTopic());
         Logger.getInstance().logInfo(msg);
     }
 
     public void stopAllPublishers() {
-        publishers.stream().forEach((pub) -> pub.stop());
+        publishers.stream().forEach(pub -> pub.stop());
+    }
+
+    public ObservableList<MqttPublisher> getPublishers() {
+        return publishers;
     }
 }

@@ -8,6 +8,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import services.mqtt.MqttManager;
 import services.mqtt.messagges.MqttMessageExtended;
 
+@Deprecated
 public class ListenerGUI extends FlowPane {
 
     // GUI

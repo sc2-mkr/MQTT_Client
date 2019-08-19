@@ -1,4 +1,4 @@
-package fxml.gui.subscriber;
+package fxml.gui.publisher;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import services.mqtt.publisher.MqttPublisher;
 import services.mqtt.subscriber.MqttSubscriber;
 import services.mqtt.subscriber.MqttSubscribersManager;
 
@@ -20,7 +21,8 @@ public class TopicInfoGUI {
         return instance;
     }
 
-    public Pane generateGUI(MqttSubscribersManager manager, MqttSubscriber sub) {
+//    public Pane generateGUI(MqttSubscribersManager manager, MqttSubscriber sub) {
+    public Pane generateGUI(MqttPublisher pub) {
         HBox pane = new HBox();
         pane.setBackground(new Background(
                 new BackgroundFill(
@@ -29,7 +31,7 @@ public class TopicInfoGUI {
                         Insets.EMPTY
                 )
         ));
-        Label lbl_topic = new Label(sub.getTopic());
+        Label lbl_topic = new Label(pub.getMsg().getTopic());
         lbl_topic.setWrapText(true); // Remove for truncate topic if too long
         lbl_topic.setPadding(new Insets(0, 5, 0, 5));
 
@@ -49,9 +51,11 @@ public class TopicInfoGUI {
                 BackgroundSize.DEFAULT);
         Background background = new Background(backgroundImage);
         btn_delete.setBackground(background);
-        btn_delete.setOnAction((event) -> manager.removeSubscription(sub));
+//        btn_delete.setOnAction((event) -> manager.removeTopic(sub));
 
         pane.getChildren().addAll(lbl_topic, spacer, btn_delete);
+
+        pane.setPadding(new Insets(5));
 
         return pane;
     }

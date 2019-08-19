@@ -6,7 +6,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import services.mqtt.subscriber.MqttSubscriber;
 import services.mqtt.subscriber.MqttSubscribersManager;
 
 public class TopicInfoGUI {
@@ -20,7 +19,7 @@ public class TopicInfoGUI {
         return instance;
     }
 
-    public Pane generateGUI(MqttSubscribersManager manager, MqttSubscriber sub) {
+    public Pane generateGUI(MqttSubscribersManager manager, String topic, boolean isEresable) {
         HBox pane = new HBox();
         pane.setBackground(new Background(
                 new BackgroundFill(
@@ -29,16 +28,9 @@ public class TopicInfoGUI {
                         Insets.EMPTY
                 )
         ));
-        Label lbl_topic = new Label(sub.getTopic());
+        Label lbl_topic = new Label(topic);
         lbl_topic.setWrapText(true); // Remove for truncate topic if too long
         lbl_topic.setPadding(new Insets(0, 5, 0, 5));
-
-        Pane spacer = new Pane();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-
-        Button btn_delete = new Button();
-        btn_delete.setMinSize(20, 20);
-        btn_delete.setMaxSize(20, 20);
 
         BackgroundImage backgroundImage = new BackgroundImage(
                 new Image(
@@ -48,10 +40,22 @@ public class TopicInfoGUI {
                 BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
         Background background = new Background(backgroundImage);
-        btn_delete.setBackground(background);
-        btn_delete.setOnAction((event) -> manager.removeSubscription(sub));
 
-        pane.getChildren().addAll(lbl_topic, spacer, btn_delete);
+        pane.getChildren().addAll(lbl_topic);
+
+        if (isEresable) {
+            Pane spacer = new Pane();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+
+            Button btn_delete = new Button();
+            btn_delete.setMinSize(20, 20);
+            btn_delete.setMaxSize(20, 20);
+
+            btn_delete.setBackground(background);
+            btn_delete.setOnAction((event) -> manager.removeTopic(topic));
+
+            pane.getChildren().addAll(spacer, btn_delete);
+        }
 
         return pane;
     }
