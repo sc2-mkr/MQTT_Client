@@ -25,6 +25,7 @@ Prerequisites:
 - SSL/TLS support
 - Message payload advanced inspection
 - Message payload Base64 support
+- Generalize logs exportation system (for adding exportation format like CSV, JSON, etc.)
 
 ## Contributing
 
