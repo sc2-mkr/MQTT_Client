@@ -1,5 +1,6 @@
 package fxml;
 
+import configs.BrokerConfiguration;
 import configs.Configuration;
 import fxml.controllers.ProgramController;
 import javafx.application.Application;
@@ -7,6 +8,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -45,7 +47,7 @@ public class Program extends Application {
         primaryStage.setOnCloseRequest(e -> controller.windowClosing());
 
         primaryStage.setScene(new Scene(rootNode));
-        //primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/icon.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/favicon/web_hi_res_512.png")));
         primaryStage.setTitle("MQTT Client");
         primaryStage.setMinHeight(new Double(Configuration.getInstance().getValue("minWindowHeight")));
         primaryStage.setMinWidth(new Double(Configuration.getInstance().getValue("minWindowWidth")));
