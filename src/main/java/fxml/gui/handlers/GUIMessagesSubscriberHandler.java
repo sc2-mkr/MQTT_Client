@@ -3,7 +3,6 @@ package fxml.gui.handlers;
 import fxml.gui.subscriber.MessageGUI;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
@@ -26,9 +25,19 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
     private ArrayList<MqttMessageExtended> messages;
     private String currentTopic = "ALL MESSAGES";
 
+    private MqttSubscribersManager manager;
+
     public GUIMessagesSubscriberHandler(ScrollPane messagesPane, MqttSubscribersManager manager) {
         this.messagesPane = messagesPane;
+        this.manager = manager;
 
+        startMessagesObserver();
+        startCurrentTopicObserver();
+
+        setStaticGUISettings();
+    }
+
+    private void startMessagesObserver() {
         JavaFxObservable.emitOnChanged(manager.getObservableMessagesList())
                 .subscribe(
                         list -> {
@@ -38,6 +47,9 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
                         error -> Logger.getInstance().logError(MessageFormat.format("GUI Subscriber Messages Handler (Messages): {0}", error.getMessage())),
                         () -> {}
                 );
+    }
+
+    private void startCurrentTopicObserver() {
         JavaFxObservable.emitOnChanged(manager.getObservableCurrentTopic())
                 .subscribe(
                         topic -> {
@@ -47,8 +59,6 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
                         error -> Logger.getInstance().logError(MessageFormat.format("GUI Subscriber Messages Handler (Topic): {0}", error.getMessage())),
                         () -> {}
                 );
-
-        setStaticGUISettings();
     }
 
     private void setStaticGUISettings() {
@@ -75,7 +85,7 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
     }
 
     private ArrayList<MqttMessageExtended> getMessagesFromCurrentTopic() {
-        if (currentTopic.equals("")) return new ArrayList<>();
+        if (currentTopic.equals("") || currentTopic.isEmpty()) return new ArrayList<>();
         else if (currentTopic.equals("ALL MESSAGES")) {
             return messages;
         } else {
