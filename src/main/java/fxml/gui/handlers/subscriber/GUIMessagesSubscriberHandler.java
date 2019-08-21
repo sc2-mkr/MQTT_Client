@@ -11,6 +11,7 @@ import javafx.scene.layout.VBox;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.mqtt.subscriber.MqttSubscribersManager;
 import services.utils.logs.Logger;
+import services.utils.regex.RegexUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -87,11 +88,9 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
 
     private ArrayList<MqttMessageExtended> getMessagesFromCurrentTopic() {
         if (currentTopic.equals("") || currentTopic.isEmpty()) return new ArrayList<>();
-        else if (currentTopic.equals("ALL MESSAGES")) {
-            return messages;
-        } else {
+        else {
             // Condition for filtering
-            Predicate<MqttMessageExtended> byTopic = msg -> msg.getTopic().equals(currentTopic);
+            Predicate<MqttMessageExtended> byTopic = msg -> RegexUtil.getInstance().match(currentTopic ,msg.getTopic());
 
             return messages.stream()
                     .filter(byTopic)

@@ -39,7 +39,7 @@ public class MessageGUI {
         dateBox.setAlignment(Pos.BASELINE_RIGHT);
 
         Label lbl_payload = new Label(new String(sub.getPayload()));
-        lbl_payload.setWrapText(true); // Remove for truncate topic if too long
+//        lbl_payload.setWrapText(true); // Remove for truncate topic if too long
         lbl_payload.setPadding(new Insets(0, 5, 0, 5));
         pane.getChildren().addAll(dateBox, lbl_payload);
 

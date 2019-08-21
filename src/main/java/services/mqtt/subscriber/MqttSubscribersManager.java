@@ -2,6 +2,7 @@ package services.mqtt.subscriber;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -9,8 +10,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import services.mqtt.MqttManager;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
+import services.utils.regex.MqttRegexUtil;
 
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Optional;
 
 public class MqttSubscribersManager implements MqttCallback {
@@ -20,18 +23,18 @@ public class MqttSubscribersManager implements MqttCallback {
     // ArrayList with all arrived messages
     private ObservableList<MqttMessageExtended> messages = FXCollections.observableArrayList();
     // ArrayList with all subscribed topic
-    private ObservableList<String> topics = FXCollections.observableArrayList();
+    private ObservableMap<String, String> topics = FXCollections.observableHashMap();
 
     // Current topic's messages showed
     // TRUST ME! I PERHAPS KNOW WHAT I DO!
-    private ObservableList<String> currentTopic = FXCollections.observableArrayList("ALL MESSAGES");
+    private ObservableList<String> currentTopic = FXCollections.observableArrayList(".*");
 
     public MqttSubscribersManager(MqttManager manager) {
         this.manager = manager;
         this.manager.getClient().setCallback(this);
 
         // Option for showing all messages
-        topics.add("ALL MESSAGES");
+        topics.put("ALL MESSAGES", ".*");
     }
 
     public void addSubscription(String topic) {
@@ -39,7 +42,7 @@ public class MqttSubscribersManager implements MqttCallback {
 
         try {
             manager.getClient().subscribe(topic);
-            topics.add(topic);
+            topics.put(topic, MqttRegexUtil.getInstance().getRegexedTopic(topic));
 
         } catch (MqttException e) {
             Logger.getInstance().logError(MessageFormat.format("MQTT subscription: {0}", e.getMessage()));
@@ -58,17 +61,17 @@ public class MqttSubscribersManager implements MqttCallback {
             e.printStackTrace();
         }
 
-        if (currentTopic.equals(topic)) {
-            Optional<String> firstTopic = topics.stream().findFirst();
-            firstTopic.ifPresent(s -> currentTopic.set(0, s));
+        if (currentTopic.get(0).equals(topic)) {
+            Optional<Map.Entry<String, String>> firstTopic = topics.entrySet().stream().findFirst();
+            firstTopic.ifPresent(s -> currentTopic.set(0, s.getKey()));
         }
 
         Logger.getInstance().logInfo(MessageFormat.format("Unsubscribed from topic \"{0}\"", topic));
     }
 
     private boolean isTopicAlreadySubscribed(String topic) {
-        for (String t : topics) {
-            if (t.equals(topic)) {
+        for (Map.Entry<String, String> t : topics.entrySet()) {
+            if (t.getKey().equals(topic)) {
                 return true;
             }
         }
@@ -91,8 +94,6 @@ public class MqttSubscribersManager implements MqttCallback {
 
         MqttMessageExtended msg = new MqttMessageExtended(s, mqttMessage);
         messages.add(msg);
-
-//        if(currentTopic.equals(s)) Platform.runLater(() -> updateMessagesGui(s));
     }
 
     @Override
@@ -104,7 +105,7 @@ public class MqttSubscribersManager implements MqttCallback {
         currentTopic.set(0, topic);
     }
 
-    public ObservableList<String> getObservableTopicsList() {
+    public ObservableMap<String, String> getObservableTopicsMap() {
         return topics;
     }
 

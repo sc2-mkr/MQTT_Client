@@ -4,7 +4,6 @@ import fxml.gui.handlers.GUIHandler;
 import fxml.gui.subscriber.TopicInfoGUI;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
@@ -12,9 +11,11 @@ import javafx.scene.layout.VBox;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.mqtt.subscriber.MqttSubscribersManager;
 import services.utils.logs.Logger;
+import services.utils.regex.RegexUtil;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class GUITopicsSubscriberHandler implements GUIHandler {
 
     private VBox vbox_topicContainer = new VBox();
 
-    private ObservableList<String> topics;
+    private Map<String, String> topics;
 
     public GUITopicsSubscriberHandler(ScrollPane topicsPane, MqttSubscribersManager manager) {
         this.topicsPane = topicsPane;
@@ -39,7 +40,7 @@ public class GUITopicsSubscriberHandler implements GUIHandler {
     }
 
     private void startTopicsObservable() {
-        JavaFxObservable.emitOnChanged(manager.getObservableTopicsList())
+        JavaFxObservable.emitOnChanged(manager.getObservableTopicsMap())
                 .subscribe(
                         list -> {
                             topics = list;
@@ -72,14 +73,14 @@ public class GUITopicsSubscriberHandler implements GUIHandler {
     @Override
     public void updateGUI() {
         vbox_topicContainer.getChildren().clear();
-        for (String topic : topics) {
+        for (Map.Entry<String, String> topic : topics.entrySet()) {
             Pane subGui = TopicInfoGUI.getInstance().generateGUI(
                     manager,
-                    topic,
-                    countMessagesOfTopic(topic),
-                    !topic.equals("ALL MESSAGES"));
+                    topic.getKey(),
+                    countMessagesOfTopic(topic.getValue()),
+                    !topic.getKey().equals("ALL MESSAGES"));
             subGui.setPadding(new Insets(5));
-            subGui.setOnMouseClicked((event) -> manager.changeMessagesTopic(topic));
+            subGui.setOnMouseClicked((event) -> manager.changeMessagesTopic(topic.getValue()));
             vbox_topicContainer.getChildren().add(subGui);
         }
         topicsPane.setContent(vbox_topicContainer);
@@ -87,16 +88,13 @@ public class GUITopicsSubscriberHandler implements GUIHandler {
 
     private int countMessagesOfTopic(String topic) {
         if (topic.equals("") || topic.isEmpty()) return 0;
-        else if (topic.equals("ALL MESSAGES")) {
-            return manager.getObservableMessagesList().size();
-        } else {
+        else {
             // Condition for filtering
-            Predicate<MqttMessageExtended> byTopic = msg -> msg.getTopic().equals(topic);
+            Predicate<MqttMessageExtended> byTopic = msg -> RegexUtil.getInstance().match(topic ,msg.getTopic());
 
             return manager.getObservableMessagesList().stream()
                     .filter(byTopic)
                     .collect(Collectors.toCollection(ArrayList::new)).size();
-
         }
     }
 }
