@@ -24,7 +24,7 @@ public class AlertUtil {
         showAlertAndWait(Alert.AlertType.WARNING, title, header, content);
     }
 
-    public void showErrorandWait(String title, String header, String content) {
+    public void showErrorAndWait(String title, String header, String content) {
         showAlertAndWait(Alert.AlertType.ERROR, title, header, content);
     }
 }
