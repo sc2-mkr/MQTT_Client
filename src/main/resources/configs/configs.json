@@ -2,5 +2,6 @@
   "bundlePath": "translation/LanguageBundle",
   "minWindowHeight": "600",
   "minWindowWidth": "900",
-  "dateFormat" : "dd-MM-yyyy HH:mm:ss"
+  "dateFormat" : "dd-MM-yyyy HH:mm:ss",
+  "appDataPath": "\\MQTT Client"
 }

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Local Mosquitto",
+    "address": "127.0.0.1",
+    "port": "1883",
+    "clientName": "MQTT_CLIENT",
+    "erasable": false
+  },
+  {
+    "name": "M2M Eclipse",
+    "address": "m2m.eclipse.org",
+    "port": "1883",
+    "clientName": "MQTT_CLIENT",
+    "erasable": false
+  }
+]
