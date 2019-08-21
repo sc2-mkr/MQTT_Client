@@ -1,5 +1,6 @@
-package fxml.gui.handlers;
+package fxml.gui.handlers.subscriber;
 
+import fxml.gui.handlers.GUIHandler;
 import fxml.gui.subscriber.MessageGUI;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.application.Platform;
