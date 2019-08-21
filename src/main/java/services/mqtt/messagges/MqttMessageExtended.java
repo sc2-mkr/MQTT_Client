@@ -9,7 +9,7 @@ public class MqttMessageExtended extends MqttMessage {
     private String topic;
 
     // When the message is arrived
-    private Date msgArrived;
+    private Date arrivalTime;
 
     public MqttMessageExtended() {
     }
@@ -23,14 +23,14 @@ public class MqttMessageExtended extends MqttMessage {
         super.setQos(msg.getQos());
         super.setId(msg.getId());
         this.topic = topic;
-        msgArrived = new Date();
+        arrivalTime = new Date();
     }
 
     public MqttMessageExtended(String topic, byte[] payload, int qos) {
         super(payload);
         super.setQos(qos);
         this.topic = topic;
-        msgArrived = new Date();
+        arrivalTime = new Date();
     }
 
     public String getTopic() {
@@ -46,6 +46,6 @@ public class MqttMessageExtended extends MqttMessage {
     }
 
     public Date getDate() {
-        return msgArrived;
+        return arrivalTime;
     }
 }
