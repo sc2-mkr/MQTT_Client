@@ -29,7 +29,7 @@ public class GUIPublishersHandler implements GUIHandler {
                             pubs = list;
                             Platform.runLater(this::updateGUI);
                         },
-                        error -> Logger.getInstance().logError(MessageFormat.format("MQTT publisher: {0}", error.getMessage())),
+                        error -> Logger.getInstance().logError(MessageFormat.format("GUI Publisher Handler: {0}", error.getMessage())),
                         () -> {});
     }
 
