@@ -1,6 +1,7 @@
 package fxml.gui.subscriber;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,8 +20,12 @@ public class TopicInfoGUI {
         return instance;
     }
 
-    public Pane generateGUI(MqttSubscribersManager manager, String topic, boolean isEresable) {
-        HBox pane = new HBox();
+    public Pane generateGUI(MqttSubscribersManager manager, String topic, int numMessages, boolean isErasable) {
+        VBox pane = new VBox();
+        pane.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox topPane = new HBox();
+
         pane.setBackground(new Background(
                 new BackgroundFill(
                         Color.rgb(0, 255, 230),
@@ -32,20 +37,26 @@ public class TopicInfoGUI {
         lbl_topic.setWrapText(true); // Remove for truncate topic if too long
         lbl_topic.setPadding(new Insets(0, 5, 0, 5));
 
-        BackgroundImage backgroundImage = new BackgroundImage(
-                new Image(
-                        getClass().getResource("/images/icons/cross.png").toExternalForm()),
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.CENTER,
-                BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
+        // Spacer between topic's name and messages counter
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        pane.getChildren().addAll(lbl_topic);
+        Label lbl_counter = new Label(Integer.toString(numMessages));
 
-        if (isEresable) {
-            Pane spacer = new Pane();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
+        topPane.getChildren().addAll(lbl_topic, spacer, lbl_counter);
+        pane.getChildren().add(topPane);
+
+        if (isErasable) {
+            BackgroundImage backgroundImage = new BackgroundImage(
+                    new Image(
+                            getClass().getResource("/images/icons/cross.png").toExternalForm()),
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    BackgroundSize.DEFAULT);
+            Background background = new Background(backgroundImage);
+
+
 
             Button btn_delete = new Button();
             btn_delete.setMinSize(20, 20);
@@ -54,8 +65,9 @@ public class TopicInfoGUI {
             btn_delete.setBackground(background);
             btn_delete.setOnAction((event) -> manager.removeTopic(topic));
 
-            pane.getChildren().addAll(spacer, btn_delete);
+            pane.getChildren().add(btn_delete);
         }
+
 
         return pane;
     }
