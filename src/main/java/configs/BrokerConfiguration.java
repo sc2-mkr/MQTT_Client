@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import services.utils.fxUtils.AlertUtil;
 import services.utils.logs.Logger;
 
 import java.io.*;
@@ -42,21 +43,24 @@ public class BrokerConfiguration {
         if(!path.exists()) {
             path.mkdirs();
             try {
-                FileWriter fileWriter = new FileWriter(JSON_PATH + "\\connectionProfiles.json");
-                PrintWriter printWriter = new PrintWriter(fileWriter);
-                String json = getLocalJSON();
-                printWriter.print(json);
-                printWriter.close();
+                createJSONInAppData();
             } catch (IOException e) {
                 System.err.println("IO " + e);
             } catch (NullPointerException e) {
                 System.err.println("Null " + e);
             }
-
         }
     }
 
-    private String getLocalJSON() throws IOException, NullPointerException {
+    private void createJSONInAppData() throws IOException, NullPointerException {
+        FileWriter fileWriter = new FileWriter(JSON_PATH + "\\connectionProfiles.json");
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        String json = getJSONInResources();
+        printWriter.print(json);
+        printWriter.close();
+    }
+
+    private String getJSONInResources() throws IOException, NullPointerException {
         String filePath = getClass().getResource("/configs/connectionProfiles.json").getFile();
         File file = new File(filePath);
         return new String(Files.readAllBytes(file.toPath()));
@@ -84,15 +88,27 @@ public class BrokerConfiguration {
                 .findFirst();
     }
 
-    public void createConnectionProfile(
+    public void addConnectionProfile(
             String name,
             String address,
             String port,
             String clientId,
             boolean isErasable) {
-        ConnectionProfile profile = new ConnectionProfile(name, address, port, clientId, isErasable);
-        profiles.add(profile);
-        saveProfiles();
+        if(profileAlreadyExist(name))
+            AlertUtil.getInstance().showErrorAndWait(
+                    "Connection Profile",
+                    "",
+                    MessageFormat.format("Profile with name \"{0}\" already exist.", name));
+        else {
+            ConnectionProfile profile = new ConnectionProfile(name, address, port, clientId, isErasable);
+            profiles.add(profile);
+            saveProfiles();
+        }
+    }
+
+    private boolean profileAlreadyExist(String name) {
+        if(getProfileByName(name).isPresent()) return true;
+        else return false;
     }
 
     public void saveProfiles() {
