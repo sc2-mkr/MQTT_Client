@@ -90,12 +90,12 @@ public class GUIProfilesHandler implements GUIHandler {
     private void setBtn_saveProfileAction() {
         btn_saveProfile.setOnMouseClicked(event -> {
             if (tf_profileName.getText().isEmpty()) {
-                AlertUtil.getInstance().showErrorandWait(
+                AlertUtil.getInstance().showErrorAndWait(
                         "Connection Profile",
                         "",
                         "Invalid connection profile's name");
             } else {
-                BrokerConfiguration.getInstance().createConnectionProfile(
+                BrokerConfiguration.getInstance().addConnectionProfile(
                         tf_profileName.getText(),
                         tf_ipAddress.getText(),
                         tf_port.getText(),
