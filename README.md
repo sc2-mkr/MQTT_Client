@@ -26,9 +26,9 @@ Download latest version in release tab, install it and enjoy!
 - Saving settings for server connection ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - User connection credential in connection profile
 - SSL/TLS support
-- Message payload advanced inspection ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=blue)
+- Message payload advanced inspection ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - Message payload Base64 support
-- Generalize logs exportation system (for adding exportation format like CSV, JSON, etc.)
+- Generalize logs exportation system (for adding exportation format like CSV, JSON, etc.) ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=blue)
 - Edit connection profile
 
 ## Contributing
