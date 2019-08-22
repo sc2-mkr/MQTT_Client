@@ -19,7 +19,7 @@ public class MessageGUI {
         return instance;
     }
 
-    public Pane generateGUI(MqttMessageExtended sub) {
+    public Pane generateGUI(MqttMessageExtended msg) {
         VBox pane = new VBox();
         pane.setSpacing(5);
         pane.setBackground(new Background(
@@ -30,18 +30,25 @@ public class MessageGUI {
                 )
         ));
 
+        Label lbl_topic = new Label(msg.getTopic());
+        lbl_topic.setStyle("-fx-font-weight: bold");
+        lbl_topic.setPadding(new Insets(0, 5, 0, 5));
+
+        Pane spacer = new Pane();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
         Label lbl_date = new Label(new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"))
-                .format(sub.getDate()));
+                .format(msg.getDate()));
         lbl_date.setPadding(new Insets(0, 5, 0, 5));
 
-        HBox dateBox = new HBox();
-        dateBox.getChildren().add(lbl_date);
-        dateBox.setAlignment(Pos.BASELINE_RIGHT);
+        HBox topPane = new HBox();
+        topPane.getChildren().addAll(lbl_topic, spacer, lbl_date);
+        topPane.setAlignment(Pos.BASELINE_RIGHT);
 
-        Label lbl_payload = new Label(new String(sub.getPayload()));
+        Label lbl_payload = new Label(new String(msg.getPayload()));
 //        lbl_payload.setWrapText(true); // Remove for truncate topic if too long
         lbl_payload.setPadding(new Insets(0, 5, 0, 5));
-        pane.getChildren().addAll(dateBox, lbl_payload);
+        pane.getChildren().addAll(topPane, lbl_payload);
 
         return pane;
     }
