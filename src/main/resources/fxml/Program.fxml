@@ -3,12 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -19,6 +21,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.TextFlow?>
@@ -29,37 +32,51 @@
          <top>
             <AnchorPane prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <TitledPane animated="false" collapsible="false" maxHeight="-Infinity" minHeight="-Infinity" text="Broker settings" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TitledPane animated="false" collapsible="false" text="Broker settings" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                      <AnchorPane prefWidth="888.0">
                            <children>
-                              <GridPane hgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                    <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
-                                    <ColumnConstraints minWidth="10.0" />
-                                    <ColumnConstraints fillWidth="false" />
-                                    <ColumnConstraints hgrow="SOMETIMES" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
+                              <VBox spacing="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label fx:id="lbl_ipAddress" text="IP address" GridPane.halignment="RIGHT" />
-                                    <TextField fx:id="tf_ipAddress" maxWidth="1.7976931348623157E308" text="127.0.0.1" GridPane.columnIndex="1" />
-                                    <Label fx:id="lbl_port" text="Port" GridPane.columnIndex="2" GridPane.halignment="RIGHT" />
-                                    <TextField fx:id="tf_port" text="1883" GridPane.columnIndex="3" />
-                                    <Button fx:id="btn_connect" mnemonicParsing="false" onMouseClicked="#connectToBroker" text="Connect" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                                    <Label fx:id="lbl_clientId" text="Client id" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-                                    <TextField fx:id="tf_clientId" text="MQTT_CLIENT" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" />
-                                    <Button fx:id="btn_generateUUID" mnemonicParsing="false" onMouseClicked="#generateUUID" text="Generate UUID" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <HBox spacing="5.0">
+                                       <children>
+                                          <ComboBox fx:id="combo_profiles" prefWidth="200.0" />
+                                          <Button fx:id="btn_loadProfiles" mnemonicParsing="false" text="Load profile" />
+                                          <Pane HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="tf_profileName" />
+                                          <Button fx:id="btn_saveProfile" mnemonicParsing="false" text="Save profile" />
+                                       </children>
+                                    </HBox>
+                                    <GridPane hgap="5.0">
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                          <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                          <ColumnConstraints minWidth="10.0" />
+                                          <ColumnConstraints fillWidth="false" />
+                                          <ColumnConstraints hgrow="SOMETIMES" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <Label fx:id="lbl_ipAddress" text="IP address" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                          <TextField fx:id="tf_ipAddress" maxWidth="1.7976931348623157E308" text="127.0.0.1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label fx:id="lbl_port" text="Port" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
+                                          <TextField fx:id="tf_port" text="1883" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                          <Button fx:id="btn_connect" mnemonicParsing="false" onMouseClicked="#connectToBroker" text="Connect" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+                                          <Label fx:id="lbl_clientId" text="Client id" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                                          <TextField fx:id="tf_clientId" text="MQTT_CLIENT" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
+                                          <Button fx:id="btn_generateUUID" mnemonicParsing="false" onMouseClicked="#generateUUID" text="Generate UUID" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" />
+                                       </padding>
+                                    </GridPane>
                                  </children>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" />
-                                 </padding>
-                              </GridPane>
+                              </VBox>
                            </children>
                            <padding>
                               <Insets left="5.0" right="5.0" top="5.0" />
@@ -149,7 +166,7 @@
                                       <items>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
-                                                <ScrollPane fx:id="scrollp_tasksContainer" prefWidth="410.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <ScrollPane fx:id="scrollp_pubsContainer" hbarPolicy="NEVER" prefWidth="410.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                    <content>
                                                       <AnchorPane minHeight="0.0" minWidth="0.0" />
                                                    </content>
@@ -199,7 +216,7 @@
                                       <items>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
-                                                <ScrollPane fx:id="scrollp_topics" layoutX="67.0" layoutY="41.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                <ScrollPane fx:id="scrollp_topics" hbarPolicy="NEVER" layoutX="67.0" layoutY="41.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                                   <content>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" />
                                                   </content>
@@ -207,11 +224,52 @@
                                              </children></AnchorPane>
                                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                              <children>
-                                                <ScrollPane fx:id="scrollp_messages" layoutX="-44.0" layoutY="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                                  <content>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-                                                  </content>
-                                                </ScrollPane>
+                                                <SplitPane dividerPositions="0.6" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                  <items>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                         <children>
+                                                            <ScrollPane fx:id="scrollp_messages" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                              <content>
+                                                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                                                              </content>
+                                                            </ScrollPane>
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                                         <children>
+                                                            <VBox minHeight="100.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                                               <children>
+                                                                  <Label fx:id="lbl_messageTopic">
+                                                                     <VBox.margin>
+                                                                        <Insets left="5.0" top="5.0" />
+                                                                     </VBox.margin>
+                                                                  </Label>
+                                                                  <HBox prefHeight="100.0" prefWidth="200.0">
+                                                                     <children>
+                                                                        <Label fx:id="lbl_messageData">
+                                                                           <HBox.margin>
+                                                                              <Insets left="5.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                        </Label>
+                                                                        <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                                                                        <Label fx:id="lbl_messageQos">
+                                                                           <HBox.margin>
+                                                                              <Insets right="5.0" top="5.0" />
+                                                                           </HBox.margin>
+                                                                        </Label>
+                                                                     </children>
+                                                                  </HBox>
+                                                                  <TextArea fx:id="txta_messagePayload" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" VBox.vgrow="ALWAYS">
+                                                                     <VBox.margin>
+                                                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                                                     </VBox.margin>
+                                                                  </TextArea>
+                                                               </children>
+                                                            </VBox>
+                                                         </children>
+                                                      </AnchorPane>
+                                                  </items>
+                                                </SplitPane>
                                              </children></AnchorPane>
                                       </items>
                                     </SplitPane>
@@ -224,16 +282,26 @@
                         </AnchorPane>
                   </content>
                 </Tab>
+                  <Tab text="Server status">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="14.0" layoutY="14.0" text="Coming soon!" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
                   <Tab text="Log">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <TextFlow fx:id="tflow_logs" style="-fx-background-color: #fff; -fx-border-color: #ccc; -fx-border-radius: 3;" VBox.vgrow="ALWAYS">
+                                    <TextFlow fx:id="tflow_logs" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #fff; -fx-border-color: #ccc; -fx-border-radius: 3;" VBox.vgrow="ALWAYS">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding></TextFlow>
+                                       </padding>
+                                    </TextFlow>
                                     <Button fx:id="btn_exportLogs" mnemonicParsing="false" onMouseClicked="#exportLogs" text="Export">
                                        <VBox.margin>
                                           <Insets top="5.0" />

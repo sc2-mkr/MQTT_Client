@@ -66,6 +66,19 @@ public class ProgramController {
     @FXML
     private ScrollPane scrollp_messages;
 
+
+    @FXML
+    private Label lbl_messageTopic;
+    @FXML
+    private Label lbl_messageData;
+    @FXML
+    private Label lbl_messageQos;
+    @FXML
+    private TextArea txta_messagePayload;
+
+
+
+
     // Publish
     // Create publisher
     @FXML
@@ -158,7 +171,13 @@ public class ProgramController {
         manager.connect();
         publishersHandler = new GUIPublishersHandler(scrollp_pubsContainer, manager.getPubManager().getPublishers());
         topicsSubscriberHandler = new GUITopicsSubscriberHandler(scrollp_topics, manager.getSubManager());
-        messagesSubscriberHandler = new GUIMessagesSubscriberHandler(scrollp_messages, manager.getSubManager());
+        messagesSubscriberHandler = new GUIMessagesSubscriberHandler(
+                scrollp_messages,
+                lbl_messageTopic,
+                lbl_messageData,
+                lbl_messageQos,
+                txta_messagePayload,
+                manager.getSubManager());
     }
 
     @FXML
