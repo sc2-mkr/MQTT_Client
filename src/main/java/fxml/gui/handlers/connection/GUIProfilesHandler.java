@@ -44,13 +44,17 @@ public class GUIProfilesHandler implements GUIHandler {
         this.tf_profileName = tf_profileName;
         this.btn_saveProfile = btn_saveProfile;
 
+        initComboBox();
+
+        setBtn_loadProfilesAction();
+        setBtn_saveProfileAction();
+    }
+
+    private void initComboBox() {
         loadProfiles();
         setFirstComboboxItem();
         setCombo_profilesAction();
         setProfilesObserver();
-
-        setBtn_loadProfilesAction();
-        setBtn_saveProfileAction();
     }
 
     private void setProfilesObserver() {

@@ -23,16 +23,17 @@ public class TopicInfoGUI {
     public Pane generateGUI(MqttSubscribersManager manager, String topic, int numMessages, boolean isErasable) {
         VBox pane = new VBox();
         pane.setAlignment(Pos.CENTER_RIGHT);
+        pane.setStyle("-fx-border-width: 0 0 2px 0; -fx-border-style: solid; -fx-border-color: #aaaaaa;");
 
         HBox topPane = new HBox();
 
-        pane.setBackground(new Background(
-                new BackgroundFill(
-                        Color.rgb(0, 255, 230),
-                        new CornerRadii(20.0),
-                        Insets.EMPTY
-                )
-        ));
+//        pane.setBackground(new Background(
+//                new BackgroundFill(
+//                        Color.rgb(0, 255, 230),
+//                        CornerRadii.EMPTY,
+//                        Insets.EMPTY
+//                )
+//        ));
         Label lbl_topic = new Label(topic);
         lbl_topic.setWrapText(true); // Remove for truncate topic if too long
         lbl_topic.setPadding(new Insets(0, 5, 0, 5));
@@ -42,6 +43,12 @@ public class TopicInfoGUI {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Label lbl_counter = new Label(Integer.toString(numMessages));
+        lbl_counter.setPadding(new Insets(0, 10, 0, 10));
+        lbl_counter.setBackground(new Background( new BackgroundFill(
+                Color.rgb(170, 170, 170),
+                new CornerRadii(10),
+                Insets.EMPTY
+        )));
 
         topPane.getChildren().addAll(lbl_topic, spacer, lbl_counter);
         pane.getChildren().add(topPane);
@@ -55,7 +62,6 @@ public class TopicInfoGUI {
                     BackgroundPosition.CENTER,
                     BackgroundSize.DEFAULT);
             Background background = new Background(backgroundImage);
-
 
 
             Button btn_delete = new Button();

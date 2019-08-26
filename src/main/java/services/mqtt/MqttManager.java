@@ -43,7 +43,7 @@ public class MqttManager {
             client = new MqttClient(url, clientId, persistence);
             connManager = new MqttConnectionManager(client);
             connManager.connect();
-            subManager = new MqttSubscribersManager(this, scrollp_topics, scrollp_messages);
+            subManager = new MqttSubscribersManager(this);
             pubManager = new MqttPublishersManager(client);
         } catch (MqttException e) {
             Logger.getInstance().logError(MessageFormat.format("MQTT connect: {0}", e.getMessage()));
@@ -75,5 +75,9 @@ public class MqttManager {
 
     public MqttPublishersManager getPubManager() {
         return pubManager;
+    }
+
+    public MqttSubscribersManager getSubManager() {
+        return subManager;
     }
 }

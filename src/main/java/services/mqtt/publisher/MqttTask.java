@@ -1,6 +1,5 @@
 package services.mqtt.publisher;
 
-import exceptions.InvalidQosException;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import services.mqtt.messagges.MqttMessageExtended;
 

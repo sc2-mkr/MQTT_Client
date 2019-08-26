@@ -35,8 +35,6 @@ public class GUITopicsSubscriberHandler implements GUIHandler {
 
         startTopicsObservable();
         startMessagesObservable();
-
-        setStaticGUISettings();
     }
 
     private void startTopicsObservable() {
@@ -60,11 +58,6 @@ public class GUITopicsSubscriberHandler implements GUIHandler {
                         error -> Logger.getInstance().logError(MessageFormat.format("GUI Subscriber Topics Handler (Messages): {0}", error.getMessage())),
                         () -> {}
                 );
-    }
-
-    private void setStaticGUISettings() {
-        vbox_topicContainer.setPadding(new Insets(5));
-        vbox_topicContainer.setSpacing(5);
     }
 
     /**

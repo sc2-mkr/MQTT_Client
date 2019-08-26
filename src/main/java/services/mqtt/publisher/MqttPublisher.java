@@ -31,5 +31,9 @@ public class MqttPublisher implements Runnable {
     public void stop() {
         timer.cancel();
     }
+
+    public MqttMessageExtended getMsg() {
+        return msg;
+    }
 }
 
