@@ -1,16 +1,15 @@
 package fxml.controllers;
 
-import configs.BrokerConfiguration;
+import fxml.gui.handlers.ExportersHandler;
 import fxml.gui.handlers.subscriber.GUIMessagesSubscriberHandler;
 import fxml.gui.handlers.connection.GUIProfilesHandler;
 import fxml.gui.handlers.GUIPublishersHandler;
 import fxml.gui.handlers.subscriber.GUITopicsSubscriberHandler;
-import fxml.io.FileSaver;
+import services.io.FileSaver;
 import fxml.logger.ConsoleLogger;
 import fxml.logger.LabelStatusLogger;
 import fxml.logger.TextAreaLogsLogger;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +17,7 @@ import javafx.scene.text.TextFlow;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import services.mqtt.MqttManager;
 import services.mqtt.messagges.MqttMessageExtended;
+import services.utils.fxUtils.AlertUtil;
 import services.utils.fxUtils.TextFlowUtils;
 import services.utils.io.WriteOnFile;
 import services.utils.logs.Logger;
@@ -107,12 +107,20 @@ public class ProgramController {
     @FXML
     private TextFlow tflow_logs;
 
+    // Logs
+    @FXML
+    private ComboBox combo_exporters;
+    @FXML
+    private Button btn_exportLogs;
+
 
     // BOTTOM
 
     @FXML
     private Label lbl_status;
 
+    // Hsndlers
+    private ExportersHandler exportersHandler;
 
     // GUI Handlers
     private GUIPublishersHandler publishersHandler;
@@ -145,8 +153,8 @@ public class ProgramController {
         cb_loop.selectedProperty().addListener((toggle) -> {
             lbl_interval.setDisable(!cb_loop.isSelected());
             tf_interval.setDisable(!cb_loop.isSelected());
-
         });
+
         connectionProfilesHandler = new GUIProfilesHandler(
                 combo_profiles,
                 btn_loadProfiles,
@@ -155,6 +163,8 @@ public class ProgramController {
                 tf_clientId,
                 tf_profileName,
                 btn_saveProfile);
+
+        exportersHandler = new ExportersHandler(combo_exporters, btn_exportLogs);
     }
 
     @FXML
@@ -192,7 +202,13 @@ public class ProgramController {
 
     @FXML
     private void subscribe(MouseEvent event) {
-        manager.subscribe(tf_subTopic.getText());
+        if(tf_subTopic.getText().isEmpty())
+            AlertUtil.getInstance().showErrorAndWait(
+                    "Subscription",
+                    "",
+                    "Invalid topic");
+        else
+            manager.subscribe(tf_subTopic.getText());
     }
 
     @FXML
@@ -200,7 +216,7 @@ public class ProgramController {
         if (fieldsEmpty()) {
             // TODO show window dialog
         } else {
-            MqttMessage msg = new MqttMessage(tf_payload.getText().getBytes());
+            MqttMessage msg = new MqttMessage(tf_payload.getText().getBytes()); // TODO USe Regex for special function
             msg.setQos(currentQos);
             msg.setRetained(cb_retained.isSelected());
             MqttMessageExtended msgExtended = new MqttMessageExtended(tf_topic.getText(), msg);
@@ -216,28 +232,6 @@ public class ProgramController {
         return tf_topic.getText().isEmpty() ||
                 tf_payload.getText().isEmpty() ||
                 (tf_interval.getText().isEmpty() && cb_loop.isSelected());
-    }
-
-    @FXML
-    private void exportLogs(MouseEvent event) {
-        String text = TextFlowUtils.getInstance().getTextFromTextFlow(tflow_logs);
-        File file = FileSaver.getInstance().getFile();
-
-        if (file != null) {
-            try {
-                WriteOnFile.getInstance().write(file, text);
-            } catch (IOException e) {
-                Logger.getInstance().logError(MessageFormat.format(
-                        "Logs export: {0}",
-                        e.getMessage()));
-                return;
-            }
-        }
-
-        Logger.getInstance().logClient(MessageFormat.format(
-                "Logs saved successfully. Location: {0}",
-                Objects.requireNonNull(file).getAbsolutePath())
-        );
     }
 
     public void windowClosing() {

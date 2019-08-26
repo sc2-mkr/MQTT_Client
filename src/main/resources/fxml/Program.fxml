@@ -302,11 +302,14 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </TextFlow>
-                                    <Button fx:id="btn_exportLogs" mnemonicParsing="false" onMouseClicked="#exportLogs" text="Export">
+                                    <HBox alignment="CENTER_RIGHT" prefWidth="200.0" spacing="5.0">
+                                       <children>
+                                          <ComboBox fx:id="combo_exporters" prefWidth="150.0" />
+                                          <Button fx:id="btn_exportLogs" mnemonicParsing="false" text="Export" />
+                                       </children>
                                        <VBox.margin>
                                           <Insets top="5.0" />
-                                       </VBox.margin>
-                                    </Button>
+                                       </VBox.margin></HBox>
                                  </children>
                               </VBox>
                            </children>
