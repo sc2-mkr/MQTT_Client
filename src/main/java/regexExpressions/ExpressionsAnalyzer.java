@@ -17,10 +17,9 @@ import java.util.stream.Collectors;
  */
 public class ExpressionsAnalyzer {
 
-    // ArrayList with interpreted interpretedExpressions
-    private ArrayList<String> interpretedExpressions = new ArrayList<>();
-
     private ArrayList<Expression> regexExpressions = new ArrayList<>();
+
+    private String result = "";
 
     public ExpressionsAnalyzer() {
         addRegexExpressions();
@@ -32,23 +31,16 @@ public class ExpressionsAnalyzer {
     }
 
     public String compute(String expression) {
-        for (String exp : splitExpression(expression)) {
-            findMatch(exp);
-        }
-        return interpretedExpressions.stream().collect(Collectors.joining(" "));
+        findMatch(expression);
+        return result;
     }
 
     private void findMatch(String exp) {
         for (Expression e : regexExpressions) {
             if(RegexUtil.getInstance().match(e.getPattern(), exp)) {
-                interpretedExpressions.add(e.interpret(exp));
+                result = e.interpret(exp);
                 // return removed because may there are multiple expression in the same part
             }
         }
-        interpretedExpressions.add(exp);
-    }
-
-    private String[] splitExpression(String expression) {
-        return expression.split(" ");
     }
 }
