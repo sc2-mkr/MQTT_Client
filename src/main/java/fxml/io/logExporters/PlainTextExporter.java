@@ -11,22 +11,23 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class PlainTextExporterFactory implements ExporterFactory {
+public class PlainTextExporter implements ExporterFactory {
 
     @Override
     public void export() {
-        // Get arrayList of messages to be concatenated
-        ArrayList<String> msgs = new ArrayList<>();
-        Logger.getInstance().getLogs().stream().forEach(log -> msgs.add(log.getMessage()));
+        String text = getText();
 
-        // Concat messages
-        String text = msgs.stream().collect(Collectors.joining("\n"));
-
+        // Get file
         File file = FileSaver.getInstance().getFile();
 
         if (file != null) {
             try {
                 WriteOnFile.getInstance().write(file, text);
+
+                Logger.getInstance().logClient(MessageFormat.format(
+                        "Logs saved successfully. Location: {0}",
+                        Objects.requireNonNull(file).getAbsolutePath())
+                );
             } catch (IOException e) {
                 Logger.getInstance().logError(MessageFormat.format(
                         "Logs export: {0}",
@@ -34,10 +35,14 @@ public class PlainTextExporterFactory implements ExporterFactory {
                 return;
             }
         }
+    }
 
-        Logger.getInstance().logClient(MessageFormat.format(
-                "Logs saved successfully. Location: {0}",
-                Objects.requireNonNull(file).getAbsolutePath())
-        );
+    private String getText() {
+        // Get arrayList of messages to be concatenated
+        ArrayList<String> msgs = new ArrayList<>();
+        Logger.getInstance().getLogs().stream().forEach(log -> msgs.add(log.getMessage()));
+
+        // Concat messages
+        return msgs.stream().collect(Collectors.joining("\n"));
     }
 }

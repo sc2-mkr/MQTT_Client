@@ -1,7 +1,7 @@
 package fxml.gui.handlers;
 
 import fxml.io.logExporters.ExporterFactory;
-import fxml.io.logExporters.PlainTextExporterFactory;
+import fxml.io.logExporters.PlainTextExporter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -53,7 +53,7 @@ public class ExportersHandler {
 
     // Add here the exporters
     private void addExporters() {
-        exporters.put("Plain text", new PlainTextExporterFactory());
+        exporters.put("Plain text", new PlainTextExporter());
     }
 
     public void export(String exporterName) {
