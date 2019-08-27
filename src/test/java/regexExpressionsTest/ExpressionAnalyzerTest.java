@@ -8,8 +8,7 @@ public class ExpressionAnalyzerTest {
 
     @Test
     public void computeTest() {
-        String expression = "hello world";
         ExpressionsAnalyzer ea = new ExpressionsAnalyzer();
-        assertEquals(ea.compute(expression), "hello world");
+        assertEquals(ea.compute("hello world"), "hello world");
     }
 }
