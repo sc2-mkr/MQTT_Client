@@ -13,24 +13,22 @@ import java.util.stream.Collectors;
  * end replace the function statement with the relative value.
  *
  * The syntax of a function must be:
- * { + <Expression name> + (Optional: (<param>,<param>, + }
+ * { + <Expression name> + (Optional: <param>,<param>,etc.) + }
  */
 public class ExpressionsAnalyzer {
 
     // ArrayList with interpreted interpretedExpressions
     private ArrayList<String> interpretedExpressions = new ArrayList<>();
 
-    private ArrayList<Expression> regexExpression = new ArrayList<>();
-
-    private String result = "";
+    private ArrayList<Expression> regexExpressions = new ArrayList<>();
 
     public ExpressionsAnalyzer() {
-        addRegexExpression();
+        addRegexExpressions();
     }
 
     // Add regex expression here
-    private void addRegexExpression() {
-        regexExpression.add(new RandomExpression());
+    private void addRegexExpressions() {
+        regexExpressions.add(new RandomExpression());
     }
 
     public String compute(String expression) {
@@ -41,10 +39,10 @@ public class ExpressionsAnalyzer {
     }
 
     private void findMatch(String exp) {
-        for (Expression e : regexExpression) {
+        for (Expression e : regexExpressions) {
             if(RegexUtil.getInstance().match(e.getPattern(), exp)) {
                 interpretedExpressions.add(e.interpret(exp));
-                return;
+                // return removed because may there are multiple expression in the same part
             }
         }
         interpretedExpressions.add(exp);
@@ -52,9 +50,5 @@ public class ExpressionsAnalyzer {
 
     private String[] splitExpression(String expression) {
         return expression.split(" ");
-    }
-
-    public String getResult() {
-        return result;
     }
 }
