@@ -31,6 +31,7 @@ Download latest version in release tab, install it and enjoy!
 - Message payload Base64 support ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=blue)
 - Generalize logs exportation system (for adding other format like CSV, JSON, etc.) ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - Edit connection profile
+- Send file over MQTT
 
 ## Contributing
 
