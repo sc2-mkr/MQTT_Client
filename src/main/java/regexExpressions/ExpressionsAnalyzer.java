@@ -5,7 +5,6 @@ import regexExpressions.expressions.RandomExpression;
 import services.utils.regex.RegexUtil;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 /**
  * Check if the payload of a message contains a function like:
@@ -31,16 +30,16 @@ public class ExpressionsAnalyzer {
     }
 
     public String compute(String expression) {
-        findMatch(expression);
-        return result;
+        return findMatch(expression);
     }
 
-    private void findMatch(String exp) {
+    private String findMatch(String exp) {
         for (Expression e : regexExpressions) {
             if(RegexUtil.getInstance().match(e.getPattern(), exp)) {
-                result = e.interpret(exp);
-                // return removed because may there are multiple expression in the same part
+                exp = e.interpret(exp);
+                // return removed because may there are multiple expression
             }
         }
+        return exp;
     }
 }
