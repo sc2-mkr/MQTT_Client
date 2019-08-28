@@ -75,6 +75,8 @@ public class ProgramController {
     private Label lbl_messageQos;
     @FXML
     private TextArea txta_messagePayload;
+    @FXML
+    private ComboBox combo_messageFormat;
 
 
 
@@ -187,6 +189,7 @@ public class ProgramController {
                 lbl_messageData,
                 lbl_messageQos,
                 txta_messagePayload,
+                combo_messageFormat,
                 manager.getSubManager());
     }
 

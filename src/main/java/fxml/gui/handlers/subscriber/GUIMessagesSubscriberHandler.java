@@ -2,10 +2,16 @@ package fxml.gui.handlers.subscriber;
 
 import configs.Configuration;
 import fxml.gui.handlers.GUIHandler;
+import fxml.gui.handlers.subscriber.messageDecoder.Base64Decoder;
+import fxml.gui.handlers.subscriber.messageDecoder.Decoder;
+import fxml.gui.handlers.subscriber.messageDecoder.HexDecoder;
+import fxml.gui.handlers.subscriber.messageDecoder.PlainTextDecoder;
 import fxml.gui.subscriber.MessageGUI;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
@@ -19,6 +25,8 @@ import services.utils.regex.RegexUtil;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,11 +37,16 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
     private Label lbl_messageData;
     private Label lbl_messageQos;
     private TextArea txta_messagePayload;
+    private ComboBox combo_messageFormat;
 
     private VBox vbox_messagesContainer = new VBox();
 
     private ArrayList<MqttMessageExtended> messages;
     private String currentTopic = "ALL MESSAGES";
+    private MqttMessageExtended currentMessageInspected = new MqttMessageExtended();
+    private Decoder currentDecoder = new PlainTextDecoder();
+
+    private Map<String, Decoder> decodingMethod = new HashMap<>();
 
     private MqttSubscribersManager manager;
 
@@ -43,18 +56,50 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
             Label lbl_messageData,
             Label lbl_messageQos,
             TextArea txta_messagePayload,
+            ComboBox combo_messageFormat,
             MqttSubscribersManager manager) {
         this.messagesPane = messagesPane;
         this.lbl_messageQos = lbl_messageQos;
         this.lbl_messageTopic = lbl_messageTopic;
         this.lbl_messageData = lbl_messageData;
         this.txta_messagePayload = txta_messagePayload;
+        this.combo_messageFormat = combo_messageFormat;
         this.manager = manager;
 
         startMessagesObserver();
         startCurrentTopicObserver();
 
+        addDecodingMethod();
+
+        setCombo_messageFormatContent();
+        setCombo_messageFormatAction();
+
         setStaticGUISettings();
+    }
+
+    // Add decodingMethod method here
+    private void addDecodingMethod() {
+        decodingMethod.put("Hex Decoder", new HexDecoder());
+        decodingMethod.put("Base64 Decoder", new Base64Decoder());
+        decodingMethod.put("Plain Text Decoder", new PlainTextDecoder());
+    }
+
+    private void setCombo_messageFormatContent() {
+        ArrayList<String> decode = new ArrayList<>();
+        decodingMethod.forEach((key, value) -> decode.add(key));
+        combo_messageFormat.setItems(FXCollections.observableArrayList(decode));
+        combo_messageFormat.getSelectionModel().select("Plain Text Decoder");
+    }
+
+    private void setCombo_messageFormatAction() {
+        combo_messageFormat.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) changeMessageEncoding((String)newValue);
+        });
+    }
+
+    private void changeMessageEncoding(String decoding) {
+        currentDecoder = decodingMethod.get(decoding);
+        txta_messagePayload.setText(decodingMethod.get(decoding).decode(currentMessageInspected.getPayloadString()));
     }
 
     private void startMessagesObserver() {
@@ -120,10 +165,11 @@ public class GUIMessagesSubscriberHandler implements GUIHandler {
     }
 
     private void changeInspectedMessage(MqttMessageExtended msg) {
+        currentMessageInspected = msg;
         lbl_messageTopic.setText(msg.getTopic());
         lbl_messageData.setText(new SimpleDateFormat(Configuration.getInstance().getValue("dateFormat"))
                 .format(msg.getDate()));
         lbl_messageQos.setText(MessageFormat.format("QOS {0}", msg.getQos()));
-        txta_messagePayload.setText(new String(msg.getPayload()));
+        txta_messagePayload.setText(currentDecoder.decode(msg.getPayloadString()));
     }
 }
