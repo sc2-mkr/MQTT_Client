@@ -1,20 +1,14 @@
 package services.mqtt.subscriber;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
+import javafx.collections.*;
+import org.eclipse.paho.client.mqttv3.*;
 import services.mqtt.MqttManager;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
 import services.utils.regex.MqttRegexUtil;
 
 import java.text.MessageFormat;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class MqttSubscribersManager implements MqttCallback {
 

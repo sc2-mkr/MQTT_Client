@@ -1,14 +1,10 @@
 package fxml.gui.handlers;
 
-import fxml.io.logExporters.ExporterFactory;
-import fxml.io.logExporters.PlainTextExporter;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
+import fxml.io.logExporters.*;
+import javafx.collections.*;
+import javafx.scene.control.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ExportersHandler {
 

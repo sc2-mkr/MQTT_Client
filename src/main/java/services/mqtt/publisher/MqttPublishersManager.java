@@ -1,13 +1,11 @@
 package services.mqtt.publisher;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 
 public class MqttPublishersManager {
 

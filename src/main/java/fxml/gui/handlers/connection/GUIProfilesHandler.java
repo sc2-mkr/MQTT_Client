@@ -1,19 +1,15 @@
 package fxml.gui.handlers.connection;
 
-import configs.BrokerConfiguration;
-import configs.ConnectionProfile;
+import configs.*;
 import fxml.gui.handlers.GUIHandler;
 import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import services.utils.fxUtils.AlertUtil;
 import services.utils.logs.Logger;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 public class GUIProfilesHandler implements GUIHandler {
 

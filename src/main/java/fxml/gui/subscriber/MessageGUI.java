@@ -1,8 +1,7 @@
 package fxml.gui.subscriber;
 
 import configs.Configuration;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.*;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;

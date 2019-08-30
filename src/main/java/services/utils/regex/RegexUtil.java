@@ -1,7 +1,6 @@
 package services.utils.regex;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.regex.*;
 
 public class RegexUtil {
     private static RegexUtil instance = new RegexUtil();

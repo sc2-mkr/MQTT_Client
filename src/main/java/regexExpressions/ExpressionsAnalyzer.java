@@ -1,7 +1,6 @@
 package regexExpressions;
 
-import regexExpressions.expressions.Expression;
-import regexExpressions.expressions.RandomExpression;
+import regexExpressions.expressions.*;
 import services.utils.regex.RegexUtil;
 
 import java.util.ArrayList;

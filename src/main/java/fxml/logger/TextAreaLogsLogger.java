@@ -3,13 +3,11 @@ package fxml.logger;
 import configs.Configuration;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 import services.utils.fxUtils.ColorUtils;
 import services.utils.logs.LoggerFactory;
 
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
+import java.text.*;
 import java.util.Date;
 
 public class TextAreaLogsLogger implements LoggerFactory {

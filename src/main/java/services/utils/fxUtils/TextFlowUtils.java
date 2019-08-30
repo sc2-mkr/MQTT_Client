@@ -1,11 +1,11 @@
 package services.utils.fxUtils;
 
 import javafx.scene.Node;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.*;
 
 import java.text.MessageFormat;
 
+@Deprecated
 public class TextFlowUtils {
     private static TextFlowUtils ourInstance = new TextFlowUtils();
 

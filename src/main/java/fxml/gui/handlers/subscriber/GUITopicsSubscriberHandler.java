@@ -6,16 +6,14 @@ import io.reactivex.rxjavafx.observables.JavaFxObservable;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.mqtt.subscriber.MqttSubscribersManager;
 import services.utils.logs.Logger;
 import services.utils.regex.RegexUtil;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 

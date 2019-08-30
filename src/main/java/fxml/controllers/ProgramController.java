@@ -1,14 +1,10 @@
 package fxml.controllers;
 
 import fxml.gui.handlers.ExportersHandler;
-import fxml.gui.handlers.subscriber.GUIMessagesSubscriberHandler;
+import fxml.gui.handlers.subscriber.*;
 import fxml.gui.handlers.connection.GUIProfilesHandler;
 import fxml.gui.handlers.GUIPublishersHandler;
-import fxml.gui.handlers.subscriber.GUITopicsSubscriberHandler;
-import services.io.FileSaver;
-import fxml.logger.ConsoleLogger;
-import fxml.logger.LabelStatusLogger;
-import fxml.logger.TextAreaLogsLogger;
+import fxml.logger.*;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,12 +14,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import services.mqtt.MqttManager;
 import services.mqtt.messagges.MqttMessageExtended;
 import services.utils.fxUtils.AlertUtil;
-import services.utils.fxUtils.TextFlowUtils;
-import services.utils.io.WriteOnFile;
 import services.utils.logs.Logger;
 
-import java.io.File;
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.*;
 

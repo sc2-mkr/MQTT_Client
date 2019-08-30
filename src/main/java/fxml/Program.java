@@ -1,13 +1,10 @@
 package fxml;
 
-import configs.BrokerConfiguration;
 import configs.Configuration;
 import fxml.controllers.ProgramController;
-import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.application.*;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 

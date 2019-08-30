@@ -2,16 +2,14 @@ package configs;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.*;
 import services.utils.fxUtils.AlertUtil;
 import services.utils.logs.Logger;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 
 public class BrokerConfiguration {
     private static BrokerConfiguration instance = new BrokerConfiguration();
