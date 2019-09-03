@@ -22,11 +22,11 @@ Download latest version in release tab, install it and enjoy!
 (Wiki cooming soon)
 
 ## TODO
-- Broker status tab ![Part Status](https://img.shields.io/static/v1?label=&message=coming%20soon&color=orange)
+- Broker status tab ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=blue)
 - Saving settings for server connection ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - User connection credential in connection profile
 - Add custom expression in message payload ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
-- SSL/TLS support ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=blue)
+- SSL/TLS support ![Part Status](https://img.shields.io/static/v1?label=&message=coming%20soon&color=orange)
 - Message payload advanced inspection ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - Message payload Base64 support ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - Generalize logs exportation system (for adding other format like CSV, JSON, etc.) 
