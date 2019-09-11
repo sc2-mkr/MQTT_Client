@@ -29,8 +29,8 @@ Download latest version in release tab, install it and enjoy!
 - SSL/TLS support ![Part Status](https://img.shields.io/static/v1?label=&message=coming%20soon&color=orange)
 - Message payload advanced inspection ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - Message payload Base64 support ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
-- Generalize logs exportation system (for adding other format like CSV, JSON, etc.) 
-- Edit connection profile
+- Generalize logs exportation system (for adding other format like CSV, JSON, etc.) ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
+- Edit connection profiles
 - Send file over MQTT
 
 ## Contributing
