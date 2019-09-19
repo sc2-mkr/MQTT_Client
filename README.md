@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.com/sc2-mkr/MQTT_Client.svg?branch=master)](https://travis-ci.com/sc2-mkr/MQTT_Client)
 [![license](https://img.shields.io/github/license/iregon/MQTT_Client.svg)](LICENSE)
-![Deployment Status](https://img.shields.io/badge/deployment-in%20progress-red.svg)
+![Development Status](https://img.shields.io/badge/development-in%20progress-red.svg)
 
 An easy way to send and receive MQTT messages
 
@@ -22,7 +22,7 @@ Download latest version in release tab, install it and enjoy!
 (Wiki cooming soon)
 
 ## TODO
-- Broker status tab ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20deployment&color=blue)
+- Broker status tab ![spinner](https://github.com/sc2-mkr/MQTT_Client/blob/master/gifs/spinner.gif) ![Part Status](https://img.shields.io/static/v1?label=&message=in%20development&color=blue)
 - Saving settings for server connection ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
 - User connection credential in connection profile
 - Add custom expression in message payload ![Part Status](https://img.shields.io/static/v1?label=&message=DONE&color=brigthgreen)
